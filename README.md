@@ -1,46 +1,95 @@
-# Getting Started with Create React App
+🧾 KYC Form Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A multi-step KYC (Know Your Customer) form application built with React and TypeScript for collecting customer information, documents, location, and biometric/signature data.
 
-## Available Scripts
+✨ Features
 
-In the project directory, you can run:
+Multi-step KYC form flow
 
-### `npm start`
+Form validation with React Hook Form
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Document upload & digital signature capture
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Interactive map for location selection
 
-### `npm test`
+Nepali date (BS) support
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Responsive UI using Tailwind CSS
 
-### `npm run build`
+Client-side routing with React Router
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+🛠 Tech Stack
+Frontend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+React
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+TypeScript
 
-### `npm run eject`
+React Router DOM
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+React Hook Form
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Tailwind CSS
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Utilities & Components
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Axios
 
-## Learn More
+Leaflet & React-Leaflet
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+React Signature Canvas
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+HTML2Canvas
+
+Nepali Date Converter
+
+React Icons
+
+(Optional) Backend
+
+Only required if backend is used
+
+Express
+
+Mongoose
+
+CORS
+
+📋 Prerequisites
+
+Make sure you have installed:
+
+Node.js (v16 or higher)
+https://nodejs.org/
+
+npm (comes with Node.js)
+
+Check versions:
+
+node -v
+npm -v
+
+🚀 Installation & Setup
+1️⃣ Clone the repository
+git clone <repository-url>
+cd <project-folder>
+
+2️⃣ Install dependencies
+npm install
+
+
+This installs all required libraries automatically from package.json.
+
+3️⃣ Start the development server
+npm start
+
+
+The app will run at:
+
+http://localhost:3000
+
+📦 Build for Production
+npm run build
+
+
+
