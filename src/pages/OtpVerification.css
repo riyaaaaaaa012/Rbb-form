@@ -1,0 +1,214 @@
+/* src/pages/OtpVerification.css */
+.otp-verification-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.otp-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 3rem;
+  max-width: 480px;
+  width: 100%;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.otp-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.otp-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
+}
+
+.otp-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.otp-form {
+  margin-bottom: 2rem;
+}
+
+.otp-input-group {
+  margin-bottom: 1.5rem;
+}
+
+.otp-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.otp-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background-color: #f9fafb;
+}
+
+.otp-input:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.otp-code-input {
+  font-size: 1.3rem;
+  letter-spacing: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  font-family: "Courier New", monospace;
+}
+
+.otp-button {
+  width: 100%;
+  padding: 0.95rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.otp-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.otp-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.otp-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.otp-button-secondary {
+  width: 100%;
+  padding: 0.95rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #667eea;
+  background: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.otp-button-secondary:hover:not(:disabled) {
+  background: #e5e7eb;
+  border-color: #667eea;
+  color: #764ba2;
+}
+
+.otp-button-secondary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.otp-button-secondary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.otp-error-message {
+  background: #fee2e2;
+  border: 1.5px solid #fca5a5;
+  color: #991b1b;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.otp-success-message {
+  background: #dcfce7;
+  border: 1.5px solid #86efac;
+  color: #166534;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .otp-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .otp-title {
+    font-size: 1.6rem;
+  }
+
+  .otp-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .otp-input {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.95rem;
+  }
+}
