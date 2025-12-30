@@ -16,7 +16,7 @@ import "./Form.css";
 import * as Slider from "@radix-ui/react-slider";
 import "./slider.css";
 import api from "../api";
-import OtpVerification from "./OtpVerification";
+
 
 const TOTAL_STEPS = 10;
 
