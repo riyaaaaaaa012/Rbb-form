@@ -16,7 +16,7 @@ import "./Form.css";
 import * as Slider from "@radix-ui/react-slider";
 import "./slider.css";
 import api from "../api";
-
+import { useTranslation } from "react-i18next";
 
 const TOTAL_STEPS = 10;
 
@@ -500,7 +500,7 @@ function Form() {
     }
     return 10; // Include guardian info step
   };
-
+  const { t, i18n } = useTranslation();
   const totalStepsCount = getTotalSteps();
   /* -------------------- STEP VALIDATION FIELDS -------------------- */
   const getStepFields = (step: number): (keyof FormData)[] => {
@@ -679,12 +679,12 @@ function Form() {
 
   const renderStep1 = () => (
     <div className="form-section">
-      <h2 className="section-title">Personal Information</h2>
+      <h2 className="section-title">{t("step1.title")}</h2>
 
       {/* First Name, Middle Name, Last Name */}
       <div className="form-field">
         <label className="form-label">
-          First Name <span className="required">*</span>
+          {t("step1.firstName")} <span className="required">*</span>
         </label>
         <Controller
           name="firstName"
@@ -695,7 +695,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder="Enter your first name"
+              placeholder={t("step1.firstNamePlaceholder")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -716,7 +716,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">Middle Name</label>
+        <label className="form-label">{t("step1.middleName")}</label>
         <Controller
           name="middleName"
           control={control}
@@ -725,7 +725,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder="Enter your middle name (optional)"
+              placeholder={t("step1.middleNamePlaceholder")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -744,7 +744,7 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Last Name <span className="required">*</span>
+          {t("step1.lastName")} <span className="required">*</span>
         </label>
         <Controller
           name="lastName"
@@ -755,7 +755,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder="Enter your last name"
+              placeholder={t("step1.lastNamePlaceholder")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -777,11 +777,14 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Date of Birth <span className="required">*</span>
+          {t("step1.dateOfBirth")}
+          <span className="required">*</span>
         </label>
         <div className="grid-2-cols">
           <div className="date-column">
-            <label className="small-label">English Date (AD)</label>
+            <label className="small-label">
+              {t("step1.dateOfBirthAD")} (AD)
+            </label>
             <Controller
               name="dateOfBirth"
               control={control}
@@ -810,7 +813,7 @@ function Form() {
           </div>
 
           <div className="date-column">
-            <label className="small-label">Nepali Date (BS)</label>
+            <label className="small-label">{t("step1.dateOfBirthBS")}</label>
             <Controller
               name="dateOfBirthBS"
               control={control}
@@ -840,7 +843,8 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Gender <span className="required">*</span>
+          {t("step1.gender")}
+          <span className="required">*</span>
         </label>
 
         <Controller
@@ -868,7 +872,7 @@ function Form() {
                   <span className="material-icons male-icon">male</span>
                 </div>
                 <label htmlFor="male" className="gender-label">
-                  Male
+                  {t("step1.gender.male")}
                 </label>
               </div>
 
@@ -891,7 +895,7 @@ function Form() {
                   <span className="material-icons female-icon">female</span>
                 </div>
                 <label htmlFor="female" className="gender-label">
-                  Female
+                  {t("step1.gender.female")}
                 </label>
               </div>
 
@@ -914,7 +918,7 @@ function Form() {
                   <span className="material-icons other-icon">transgender</span>
                 </div>
                 <label htmlFor="other" className="gender-label">
-                  Other
+                  {t("step1.gender.other")}
                 </label>
               </div>
             </div>
@@ -930,7 +934,7 @@ function Form() {
       {watch("gender") === "Other" && (
         <div className="form-field">
           <label className="form-label">
-            Please specify your gender <span className="required">*</span>
+            {t("step1.genderOther")} <span className="required">*</span>
           </label>
           <Controller
             name="genderOther"
@@ -957,7 +961,7 @@ function Form() {
       )}
       <div className="form-field">
         <label className="form-label">
-          Nationality <span className="required">*</span>
+          {t("step1.nationality")} <span className="required">*</span>
         </label>
         <Controller
           name="nationality"
@@ -978,7 +982,7 @@ function Form() {
                   className="radio-input"
                 />
                 <label htmlFor="nepali" className="radio-label">
-                  Nepali
+                  {t("step1.nationality.nepali")}
                 </label>
               </div>
 
@@ -992,7 +996,7 @@ function Form() {
                   className="radio-input"
                 />
                 <label htmlFor="nationality-other" className="radio-label">
-                  Other
+                  {t("step1.nationality.other")}
                 </label>
               </div>
             </div>
@@ -1007,7 +1011,8 @@ function Form() {
       {watch("nationality") === "Other" && (
         <div className="form-field">
           <label className="form-label">
-            Please specify your nationality <span className="required">*</span>
+            {t("step1.nationalityOther")}
+            <span className="required">*</span>
           </label>
           <Controller
             name="nationalityOther"
@@ -1035,7 +1040,7 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Citizenship Number <span className="required">*</span>
+          {t("step1.citizenshipNumber")} <span className="required">*</span>
         </label>
         <Controller
           name="citizenshipNumber"
@@ -1052,11 +1057,11 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Citizenship Issue Date <span className="required">*</span>
+          {t("step1.citizenshipIssueDate")} <span className="required">*</span>
         </label>
         <div className="grid-2-cols">
           <div className="date-column">
-            <label className="small-label">English Date (AD)</label>
+            <label className="small-label">{t("step1.dateOfBirthAD")}</label>
             <Controller
               name="citizenshipIssueDate"
               control={control}
@@ -1085,7 +1090,7 @@ function Form() {
           </div>
 
           <div className="date-column">
-            <label className="small-label">Nepali Date (BS)</label>
+            <label className="small-label">{t("step1.dateOfBirthBS")}</label>
             <Controller
               name="citizenshipIssueDateBS"
               control={control}
@@ -1124,7 +1129,8 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Citizenship Issue District <span className="required">*</span>
+          {t("step1.citizenshipIssueDistrict")}{" "}
+          <span className="required">*</span>
         </label>
         <Controller
           name="citizenshipIssueDistrict"
@@ -1142,7 +1148,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">Beneficiary ID No.</label>
+        <label className="form-label">{t("step1.beneficiaryIdNo")}</label>
         <Controller
           name="beneficiaryIdNo"
           control={control}
@@ -1153,7 +1159,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">PAN Number</label>
+        <label className="form-label">{t("step1.panNumber")}</label>
         <Controller
           name="panNumber"
           control={control}
@@ -1164,9 +1170,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">
-          Identification No. (In case of NRN)
-        </label>
+        <label className="form-label">{t("step1.identificationNo")}</label>
         <Controller
           name="identificationNo"
           control={control}
@@ -1177,9 +1181,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">
-          Identification Address (In case of NRN)
-        </label>
+        <label className="form-label">{t("step1.identificationAddress")}</label>
         <Controller
           name="identificationAddress"
           control={control}
@@ -3086,6 +3088,30 @@ function Form() {
       ) : ( */}
       <FormProvider {...methods}>
         <div className="form-container">
+          {/* Language Toggle Button */}
+          <button
+            type="button"
+            onClick={() =>
+              i18n.changeLanguage(i18n.language === "en" ? "ne" : "en")
+            }
+            style={{
+              position: "fixed",
+              top: "20px",
+              right: "20px",
+              padding: "10px 20px",
+              backgroundColor: "#4F46E5",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: "600",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              zIndex: 1000,
+            }}
+          >
+            {i18n.language === "en" ? "🇳🇵 नेपाली" : "🇬🇧 English"}
+          </button>
           {currentStep !== totalStepsCount && (
             <div className="progress-container">
               <div className="progress-wrapper">
