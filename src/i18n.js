@@ -1,22 +1,22 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
 const resources = {
   en: {
     translation: {
       // Common
-      "required": "*",
-      "optional": "(Optional)",
-      "next": "Next",
-      "previous": "Previous",
-      "submit": "Submit",
-      "save": "Save",
-      "clear": "Clear",
-      "remove": "Remove",
-      "addChild": "Add Child",
-      "upload": "Upload",
-      "sameAsCurrentAddress": "Same as current address",
-      
+      required: "*",
+      optional: "(Optional)",
+      next: "Next",
+      previous: "Previous",
+      submit: "Submit",
+      save: "Save",
+      clear: "Clear",
+      remove: "Remove",
+      addChild: "Add Child",
+      upload: "Upload",
+      sameAsCurrentAddress: "Same as current address",
+
       // Step 1 - Personal Information
       "step1.title": "Personal Information",
       "step1.firstName": "First Name",
@@ -44,7 +44,7 @@ const resources = {
       "step1.panNumber": "PAN Number",
       "step1.identificationNo": "Identification No. (In case of NRN)",
       "step1.identificationAddress": "Identification Address (In case of NRN)",
-      
+
       // Step 2 - Address Information
       "step2.title": "Address Information",
       "step2.currentAddress": "Current Address",
@@ -57,7 +57,7 @@ const resources = {
       "step2.contactInfo": "Contact Information",
       "step2.contactNumber": "Contact Number",
       "step2.emailAddress": "Email Address",
-      
+
       // Step 3 - Family Information
       "step3.title": "Family Information",
       "step3.maritalStatus": "Marital Status",
@@ -72,7 +72,7 @@ const resources = {
       "step3.fatherInLawName": "Father-in-Law's Name",
       "step3.motherInLawName": "Mother-in-Law's Name",
       "step3.childrenNames": "Children's Names",
-      
+
       // Step 4 - Bank Details
       "step4.title": "Bank Details",
       "step4.accountType": "Account Type",
@@ -82,7 +82,7 @@ const resources = {
       "step4.accountNumber": "Account Number",
       "step4.bankName": "Bank Name",
       "step4.bankAddress": "Bank Address",
-      
+
       // Step 5 - Occupation & Finance
       "step5.title": "Occupation & Finance Details",
       "step5.occupationType": "Occupation Type",
@@ -105,11 +105,13 @@ const resources = {
       "step5.designation": "Designation",
       "step5.employeeId": "Employee ID",
       "step5.annualIncome": "Annual Income",
-      
+
       // Step 6 - Guardian Information
       "step6.title": "Guardian Information",
-      "step6.notRequired": "You are 18 or older - Guardian information is not required.",
-      "step6.minorNotice": "You are {{age}} years old - Guardian information is required.",
+      "step6.notRequired":
+        "You are 18 or older - Guardian information is not required.",
+      "step6.minorNotice":
+        "You are {{age}} years old - Guardian information is required.",
       "step6.guardianName": "Guardian Name",
       "step6.relationship": "Relationship",
       "step6.relationship.father": "Father",
@@ -126,24 +128,27 @@ const resources = {
       "step6.issueDateBS": "Issue Date (BS)",
       "step6.issueAuthority": "Issue Authority",
       "step6.guardianSignature": "Guardian Signature",
-      
+
       // Step 7 - Legal & Investment
       "step7.investmentTitle": "Investment Disclosure",
-      "step7.investmentQuestion": "Are you involved with any investment company as Promoter/Director/Shareholder?",
+      "step7.investmentQuestion":
+        "Are you involved with any investment company as Promoter/Director/Shareholder?",
       "step7.investmentDetails": "Investment Company Details",
       "step7.legalTitle": "Legal Consent",
       "step7.legalDeclaration": "Legal Declaration",
-      "step7.legalConsent": "I hereby declare that all information provided is true and accurate",
+      "step7.legalConsent":
+        "I hereby declare that all information provided is true and accurate",
       "step7.locationMapTitle": "Location Map",
       "step7.locationInstruction": "Click on the map to set your location",
       "step7.captureScreenshot": "Capture Map Screenshot",
       "step7.thumbprintsTitle": "Thumbprints",
       "step7.rightThumb": "Right Thumbprint",
       "step7.leftThumb": "Left Thumbprint",
-      
+
       // Step 8 - Document Upload
       "step8.title": "Document Upload",
-      "step8.description": "Please upload clear images of the required documents. Accepted formats: JPG, PNG, PDF (Max 5MB each)",
+      "step8.description":
+        "Please upload clear images of the required documents. Accepted formats: JPG, PNG, PDF (Max 5MB each)",
       "step8.citizenshipFront": "Citizenship Certificate (Front)",
       "step8.citizenshipBack": "Citizenship Certificate (Back)",
       "step8.passport": "Passport Copy",
@@ -156,34 +161,35 @@ const resources = {
       "step8.guardianCitizenship": "Guardian's Citizenship Certificate",
       "step8.guardianPhoto": "Guardian's Photo",
       "step8.fileUploaded": "File uploaded",
-      
+
       // Step 9 - Review
       "step9.title": "Final Review & Submission",
       "step9.reviewHeader": "Review Your Information Before Submission",
-      "step9.reviewSubtitle": "Please review all the information you have provided. Once submitted, you cannot make changes to this application.",
-      
+      "step9.reviewSubtitle":
+        "Please review all the information you have provided. Once submitted, you cannot make changes to this application.",
+
       // Buttons
       "btn.yes": "Yes",
       "btn.no": "No",
       "btn.cancel": "Cancel",
       "btn.confirm": "Confirm",
-    }
+    },
   },
   ne: {
     translation: {
       // Common
-      "required": "*",
-      "optional": "(वैकल्पिक)",
-      "next": "अर्को",
-      "previous": "अघिल्लो",
-      "submit": "पेश गर्नुहोस्",
-      "save": "सुरक्षित गर्नुहोस्",
-      "clear": "खाली गर्नुहोस्",
-      "remove": "हटाउनुहोस्",
-      "addChild": "बच्चा थप्नुहोस्",
-      "upload": "अपलोड गर्नुहोस्",
-      "sameAsCurrentAddress": "हालको ठेगाना जस्तै",
-      
+      required: "*",
+      optional: "(वैकल्पिक)",
+      next: "अर्को",
+      previous: "अघिल्लो",
+      submit: "पेश गर्नुहोस्",
+      save: "सुरक्षित गर्नुहोस्",
+      clear: "खाली गर्नुहोस्",
+      remove: "हटाउनुहोस्",
+      addChild: "बच्चा थप्नुहोस्",
+      upload: "अपलोड गर्नुहोस्",
+      sameAsCurrentAddress: "हालको ठेगाना जस्तै",
+
       // Step 1 - Personal Information
       "step1.title": "व्यक्तिगत जानकारी",
       "step1.firstName": "पहिलो नाम",
@@ -211,7 +217,14 @@ const resources = {
       "step1.panNumber": "प्यान नम्बर",
       "step1.identificationNo": "परिचय नम्बर (NRN को हकमा)",
       "step1.identificationAddress": "परिचय ठेगाना (NRN को हकमा)",
-      
+      // en
+      "step1.genderOther": "Specify other gender",
+      "step1.nationalityOther": "Specify other nationality",
+
+      // ne
+      "step1.genderOther": "अन्य लिङ्ग उल्लेख गर्नुहोस्",
+      "step1.nationalityOther": "अन्य राष्ट्रियता उल्लेख गर्नुहोस्",
+
       // Step 2 - Address Information
       "step2.title": "ठेगाना विवरण",
       "step2.currentAddress": "हालको ठेगाना",
@@ -224,7 +237,7 @@ const resources = {
       "step2.contactInfo": "सम्पर्क जानकारी",
       "step2.contactNumber": "सम्पर्क नम्बर",
       "step2.emailAddress": "इमेल ठेगाना",
-      
+
       // Step 3 - Family Information
       "step3.title": "पारिवारिक जानकारी",
       "step3.maritalStatus": "वैवाहिक स्थिति",
@@ -239,7 +252,7 @@ const resources = {
       "step3.fatherInLawName": "ससुराको नाम",
       "step3.motherInLawName": "सासुको नाम",
       "step3.childrenNames": "छोराछोरीको नाम",
-      
+
       // Step 4 - Bank Details
       "step4.title": "बैंक विवरण",
       "step4.accountType": "खाता प्रकार",
@@ -249,7 +262,7 @@ const resources = {
       "step4.accountNumber": "खाता नम्बर",
       "step4.bankName": "बैंकको नाम",
       "step4.bankAddress": "बैंकको ठेगाना",
-      
+
       // Step 5 - Occupation & Finance
       "step5.title": "पेशा र आर्थिक विवरण",
       "step5.occupationType": "पेशाको प्रकार",
@@ -266,17 +279,20 @@ const resources = {
       "step5.businessType.manufacturing": "उत्पादनमूलक",
       "step5.businessType.service": "सेवामूलक",
       "step5.businessType.other": "अन्य",
-      "step5.businessTypeSpecify": "कृपया आफ्नो व्यापारको प्रकार उल्लेख गर्नुहोस्",
+      "step5.businessTypeSpecify":
+        "कृपया आफ्नो व्यापारको प्रकार उल्लेख गर्नुहोस्",
       "step5.organizationName": "संस्थाको नाम",
       "step5.organizationAddress": "संस्थाको ठेगाना",
       "step5.designation": "पद",
       "step5.employeeId": "कर्मचारी नम्बर",
       "step5.annualIncome": "वार्षिक आय",
-      
+
       // Step 6 - Guardian Information
       "step6.title": "संरक्षकको जानकारी",
-      "step6.notRequired": "तपाईं १८ वर्ष वा सोभन्दा माथिको हुनुहुन्छ - संरक्षकको जानकारी आवश्यक छैन।",
-      "step6.minorNotice": "तपाईं {{age}} वर्षको हुनुहुन्छ - संरक्षकको जानकारी आवश्यक छ।",
+      "step6.notRequired":
+        "तपाईं १८ वर्ष वा सोभन्दा माथिको हुनुहुन्छ - संरक्षकको जानकारी आवश्यक छैन।",
+      "step6.minorNotice":
+        "तपाईं {{age}} वर्षको हुनुहुन्छ - संरक्षकको जानकारी आवश्यक छ।",
       "step6.guardianName": "संरक्षकको नाम",
       "step6.relationship": "सम्बन्ध",
       "step6.relationship.father": "बुबा",
@@ -293,24 +309,28 @@ const resources = {
       "step6.issueDateBS": "जारी मिति (वि.सं.)",
       "step6.issueAuthority": "जारी गर्ने निकाय",
       "step6.guardianSignature": "संरक्षकको हस्ताक्षर",
-      
+
       // Step 7 - Legal & Investment
       "step7.investmentTitle": "लगानी खुलासा",
-      "step7.investmentQuestion": "के तपाईं कुनै लगानी कम्पनीमा प्रवर्द्धक/संचालक/शेयरधनीको रूपमा संलग्न हुनुहुन्छ?",
+      "step7.investmentQuestion":
+        "के तपाईं कुनै लगानी कम्पनीमा प्रवर्द्धक/संचालक/शेयरधनीको रूपमा संलग्न हुनुहुन्छ?",
       "step7.investmentDetails": "लगानी कम्पनीको विवरण",
       "step7.legalTitle": "कानूनी सहमति",
       "step7.legalDeclaration": "कानूनी घोषणा",
-      "step7.legalConsent": "म एतद्द्वारा घोषणा गर्दछु कि प्रदान गरिएको सबै जानकारी सत्य र सही छ",
+      "step7.legalConsent":
+        "म एतद्द्वारा घोषणा गर्दछु कि प्रदान गरिएको सबै जानकारी सत्य र सही छ",
       "step7.locationMapTitle": "स्थान नक्सा",
-      "step7.locationInstruction": "आफ्नो स्थान सेट गर्न नक्सामा क्लिक गर्नुहोस्",
+      "step7.locationInstruction":
+        "आफ्नो स्थान सेट गर्न नक्सामा क्लिक गर्नुहोस्",
       "step7.captureScreenshot": "नक्साको स्क्रिनसट खिच्नुहोस्",
       "step7.thumbprintsTitle": "औंठाछाप",
       "step7.rightThumb": "दाहिने औंलाको छाप",
       "step7.leftThumb": "देब्रे औंलाको छाप",
-      
+
       // Step 8 - Document Upload
       "step8.title": "कागजात अपलोड",
-      "step8.description": "कृपया आवश्यक कागजातहरूको स्पष्ट तस्बिर अपलोड गर्नुहोस्। स्वीकृत ढाँचा: JPG, PNG, PDF (अधिकतम 5MB प्रत्येक)",
+      "step8.description":
+        "कृपया आवश्यक कागजातहरूको स्पष्ट तस्बिर अपलोड गर्नुहोस्। स्वीकृत ढाँचा: JPG, PNG, PDF (अधिकतम 5MB प्रत्येक)",
       "step8.citizenshipFront": "नागरिकता प्रमाणपत्र (अगाडि)",
       "step8.citizenshipBack": "नागरिकता प्रमाणपत्र (पछाडि)",
       "step8.passport": "राहदानी प्रतिलिपि",
@@ -323,30 +343,29 @@ const resources = {
       "step8.guardianCitizenship": "संरक्षकको नागरिकता प्रमाणपत्र",
       "step8.guardianPhoto": "संरक्षकको फोटो",
       "step8.fileUploaded": "फाइल अपलोड भयो",
-      
+
       // Step 9 - Review
       "step9.title": "अन्तिम समीक्षा र पेश",
       "step9.reviewHeader": "पेश गर्नु अघि आफ्नो जानकारी समीक्षा गर्नुहोस्",
-      "step9.reviewSubtitle": "कृपया तपाईंले प्रदान गर्नुभएको सबै जानकारी समीक्षा गर्नुहोस्। एकपटक पेश गरेपछि, तपाईं यस आवेदनमा परिवर्तन गर्न सक्नुहुन्न।",
-      
+      "step9.reviewSubtitle":
+        "कृपया तपाईंले प्रदान गर्नुभएको सबै जानकारी समीक्षा गर्नुहोस्। एकपटक पेश गरेपछि, तपाईं यस आवेदनमा परिवर्तन गर्न सक्नुहुन्न।",
+
       // Buttons
       "btn.yes": "छ",
       "btn.no": "छैन",
       "btn.cancel": "रद्द गर्नुहोस्",
       "btn.confirm": "पुष्टि गर्नुहोस्",
-    }
-  }
+    },
+  },
 };
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: 'en', // default language
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false
-    }
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: "en", // default language
+  fallbackLng: "en",
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;

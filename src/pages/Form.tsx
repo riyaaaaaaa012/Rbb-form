@@ -1210,9 +1210,9 @@ function Form() {
 
     return (
       <div className="form-section">
-        <h2 className="section-title">Address Information</h2>
+        <h2 className="section-title">{t("step2.title")}</h2>
 
-        <h3 className="subsection-title">Current Address</h3>
+        <h3 className="subsection-title">{t("step2.currentAddress")}</h3>
         <div className="grid-2-cols">
           {[
             "currentWardNo",
@@ -1251,7 +1251,7 @@ function Form() {
           ))}
         </div>
 
-        <h3 className="subsection-title">Permanent Address</h3>
+        <h3 className="subsection-title">{t("step2.permanentAddress")}</h3>
         <div className="form-field" style={{ marginBottom: "1.5rem" }}>
           <label className="form-label">
             <input
@@ -1301,10 +1301,10 @@ function Form() {
           ))}
         </div>
 
-        <h3 className="subsection-title">Contact Information</h3>
+        <h3 className="subsection-title">{t("step2.contactInfo")}</h3>
         <div className="form-field">
           <label className="form-label">
-            Contact Number <span className="required">*</span>
+            {t("step2.contactNumber")} <span className="required">*</span>
           </label>
           <Controller
             name="contactNumber"
@@ -1327,7 +1327,7 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Email Address <span className="required">*</span>
+            {t("step2.emailAddress")} <span className="required">*</span>
           </label>
           <Controller
             name="emailAddress"
