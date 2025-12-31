@@ -57,6 +57,23 @@ const resources = {
       "step2.contactInfo": "Contact Information",
       "step2.contactNumber": "Contact Number",
       "step2.emailAddress": "Email Address",
+      // Common
+      "validation.required": "This field is required",
+      "validation.invalidPhone": "Invalid contact number",
+      "validation.invalidEmail": "Invalid email address",
+
+      // Step 2 - Address Information
+      "step2.sameAsCurrentAddress": "Same as current address",
+      "step2.currentWardNo": "Current Ward No.",
+      "step2.currentMunicipality": "Current Municipality",
+      "step2.currentDistrict": "Current District",
+      "step2.currentProvince": "Current Province",
+      "step2.currentCountry": "Current Country",
+      "step2.permanentWardNo": "Permanent Ward No.",
+      "step2.permanentMunicipality": "Permanent Municipality",
+      "step2.permanentDistrict": "Permanent District",
+      "step2.permanentProvince": "Permanent Province",
+      "step2.permanentCountry": "Permanent Country",
 
       // Step 3 - Family Information
       "step3.title": "Family Information",
@@ -237,6 +254,21 @@ const resources = {
       "step2.contactInfo": "सम्पर्क जानकारी",
       "step2.contactNumber": "सम्पर्क नम्बर",
       "step2.emailAddress": "इमेल ठेगाना",
+      "validation.required": "यो फिल्ड आवश्यक छ",
+      "validation.invalidPhone": "अवैध सम्पर्क नम्बर",
+      "validation.invalidEmail": "अवैध इमेल ठेगाना",
+
+      "step2.sameAsCurrentAddress": "हालको ठेगाना जस्तै",
+      "step2.currentWardNo": "हालको वडा नं.",
+      "step2.currentMunicipality": "हालको नगरपालिका/गाउँपालिका",
+      "step2.currentDistrict": "हालको जिल्ला",
+      "step2.currentProvince": "हालको प्रदेश",
+      "step2.currentCountry": "हालको देश",
+      "step2.permanentWardNo": "स्थायी वडा नं.",
+      "step2.permanentMunicipality": "स्थायी नगरपालिका/गाउँपालिका",
+      "step2.permanentDistrict": "स्थायी जिल्ला",
+      "step2.permanentProvince": "स्थायी प्रदेश",
+      "step2.permanentCountry": "स्थायी देश",
 
       // Step 3 - Family Information
       "step3.title": "पारिवारिक जानकारी",
