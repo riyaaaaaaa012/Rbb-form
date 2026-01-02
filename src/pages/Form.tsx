@@ -16,7 +16,7 @@ import "./Form.css";
 import * as Slider from "@radix-ui/react-slider";
 import "./slider.css";
 import api from "../api";
-
+import { useTranslation } from "react-i18next";
 
 const TOTAL_STEPS = 10;
 
@@ -500,7 +500,7 @@ function Form() {
     }
     return 10; // Include guardian info step
   };
-
+  const { t, i18n } = useTranslation();
   const totalStepsCount = getTotalSteps();
   /* -------------------- STEP VALIDATION FIELDS -------------------- */
   const getStepFields = (step: number): (keyof FormData)[] => {
@@ -679,12 +679,12 @@ function Form() {
 
   const renderStep1 = () => (
     <div className="form-section">
-      <h2 className="section-title">Personal Information</h2>
+      <h2 className="section-title">{t("step1.title")}</h2>
 
       {/* First Name, Middle Name, Last Name */}
       <div className="form-field">
         <label className="form-label">
-          First Name <span className="required">*</span>
+          {t("step1.firstName")} <span className="required">*</span>
         </label>
         <Controller
           name="firstName"
@@ -695,7 +695,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder="Enter your first name"
+              placeholder={t("First Name")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -716,7 +716,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">Middle Name</label>
+        <label className="form-label">{t("step1.middleName")}</label>
         <Controller
           name="middleName"
           control={control}
@@ -725,7 +725,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder="Enter your middle name (optional)"
+              placeholder={t("Middle Name")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -744,7 +744,7 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Last Name <span className="required">*</span>
+          {t("step1.lastName")} <span className="required">*</span>
         </label>
         <Controller
           name="lastName"
@@ -755,7 +755,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder="Enter your last name"
+              placeholder={t("Last Name")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -777,11 +777,14 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Date of Birth <span className="required">*</span>
+          {t("step1.dateOfBirth")}
+          <span className="required">*</span>
         </label>
         <div className="grid-2-cols">
           <div className="date-column">
-            <label className="small-label">English Date (AD)</label>
+            <label className="small-label">
+              {t("step1.dateOfBirthAD")} (AD)
+            </label>
             <Controller
               name="dateOfBirth"
               control={control}
@@ -810,7 +813,7 @@ function Form() {
           </div>
 
           <div className="date-column">
-            <label className="small-label">Nepali Date (BS)</label>
+            <label className="small-label">{t("step1.dateOfBirthBS")}</label>
             <Controller
               name="dateOfBirthBS"
               control={control}
@@ -840,7 +843,8 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Gender <span className="required">*</span>
+          {t("step1.gender")}
+          <span className="required">*</span>
         </label>
 
         <Controller
@@ -868,7 +872,7 @@ function Form() {
                   <span className="material-icons male-icon">male</span>
                 </div>
                 <label htmlFor="male" className="gender-label">
-                  Male
+                  {t("step1.gender.male")}
                 </label>
               </div>
 
@@ -891,7 +895,7 @@ function Form() {
                   <span className="material-icons female-icon">female</span>
                 </div>
                 <label htmlFor="female" className="gender-label">
-                  Female
+                  {t("step1.gender.female")}
                 </label>
               </div>
 
@@ -914,7 +918,7 @@ function Form() {
                   <span className="material-icons other-icon">transgender</span>
                 </div>
                 <label htmlFor="other" className="gender-label">
-                  Other
+                  {t("step1.gender.other")}
                 </label>
               </div>
             </div>
@@ -930,7 +934,7 @@ function Form() {
       {watch("gender") === "Other" && (
         <div className="form-field">
           <label className="form-label">
-            Please specify your gender <span className="required">*</span>
+            {t("step1.genderOther")} <span className="required">*</span>
           </label>
           <Controller
             name="genderOther"
@@ -957,7 +961,7 @@ function Form() {
       )}
       <div className="form-field">
         <label className="form-label">
-          Nationality <span className="required">*</span>
+          {t("step1.nationality")} <span className="required">*</span>
         </label>
         <Controller
           name="nationality"
@@ -978,7 +982,7 @@ function Form() {
                   className="radio-input"
                 />
                 <label htmlFor="nepali" className="radio-label">
-                  Nepali
+                  {t("step1.nationality.nepali")}
                 </label>
               </div>
 
@@ -992,7 +996,7 @@ function Form() {
                   className="radio-input"
                 />
                 <label htmlFor="nationality-other" className="radio-label">
-                  Other
+                  {t("step1.nationality.other")}
                 </label>
               </div>
             </div>
@@ -1007,7 +1011,8 @@ function Form() {
       {watch("nationality") === "Other" && (
         <div className="form-field">
           <label className="form-label">
-            Please specify your nationality <span className="required">*</span>
+            {t("step1.nationalityOther")}
+            <span className="required">*</span>
           </label>
           <Controller
             name="nationalityOther"
@@ -1035,7 +1040,7 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Citizenship Number <span className="required">*</span>
+          {t("step1.citizenshipNumber")} <span className="required">*</span>
         </label>
         <Controller
           name="citizenshipNumber"
@@ -1052,11 +1057,11 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Citizenship Issue Date <span className="required">*</span>
+          {t("step1.citizenshipIssueDate")} <span className="required">*</span>
         </label>
         <div className="grid-2-cols">
           <div className="date-column">
-            <label className="small-label">English Date (AD)</label>
+            <label className="small-label">{t("step1.dateOfBirthAD")}</label>
             <Controller
               name="citizenshipIssueDate"
               control={control}
@@ -1085,7 +1090,7 @@ function Form() {
           </div>
 
           <div className="date-column">
-            <label className="small-label">Nepali Date (BS)</label>
+            <label className="small-label">{t("step1.dateOfBirthBS")}</label>
             <Controller
               name="citizenshipIssueDateBS"
               control={control}
@@ -1124,7 +1129,8 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Citizenship Issue District <span className="required">*</span>
+          {t("step1.citizenshipIssueDistrict")}{" "}
+          <span className="required">*</span>
         </label>
         <Controller
           name="citizenshipIssueDistrict"
@@ -1142,7 +1148,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">Beneficiary ID No.</label>
+        <label className="form-label">{t("step1.beneficiaryIdNo")}</label>
         <Controller
           name="beneficiaryIdNo"
           control={control}
@@ -1153,7 +1159,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">PAN Number</label>
+        <label className="form-label">{t("step1.panNumber")}</label>
         <Controller
           name="panNumber"
           control={control}
@@ -1164,9 +1170,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">
-          Identification No. (In case of NRN)
-        </label>
+        <label className="form-label">{t("step1.identificationNo")}</label>
         <Controller
           name="identificationNo"
           control={control}
@@ -1177,9 +1181,7 @@ function Form() {
       </div>
 
       <div className="form-field">
-        <label className="form-label">
-          Identification Address (In case of NRN)
-        </label>
+        <label className="form-label">{t("step1.identificationAddress")}</label>
         <Controller
           name="identificationAddress"
           control={control}
@@ -1190,6 +1192,18 @@ function Form() {
       </div>
     </div>
   );
+  const addressLabels: Record<string, string> = {
+    currentWardNo: t("step2.currentWardNo"),
+    currentMunicipality: t("step2.currentMunicipality"),
+    currentDistrict: t("step2.currentDistrict"),
+    currentProvince: t("step2.currentProvince"),
+    currentCountry: t("step2.currentCountry"),
+    permanentWardNo: t("step2.permanentWardNo"),
+    permanentMunicipality: t("step2.permanentMunicipality"),
+    permanentDistrict: t("step2.permanentDistrict"),
+    permanentProvince: t("step2.permanentProvince"),
+    permanentCountry: t("step2.permanentCountry"),
+  };
 
   const renderStep2 = () => {
     const handleSameAsCurrentAddress = (
@@ -1208,9 +1222,9 @@ function Form() {
 
     return (
       <div className="form-section">
-        <h2 className="section-title">Address Information</h2>
+        <h2 className="section-title">{t("step2.title")}</h2>
 
-        <h3 className="subsection-title">Current Address</h3>
+        <h3 className="subsection-title">{t("step2.currentAddress")}</h3>
         <div className="grid-2-cols">
           {[
             "currentWardNo",
@@ -1221,16 +1235,12 @@ function Form() {
           ].map((field) => (
             <div className="form-field" key={field}>
               <label className="form-label">
-                {field
-                  .replace("current", "")
-                  .replace(/([A-Z])/g, " $1")
-                  .trim()}{" "}
-                <span className="required">*</span>
+                {addressLabels[field]} <span className="required">*</span>
               </label>
               <Controller
                 name={field as keyof FormData}
                 control={control}
-                rules={{ required: "This field is required" }}
+                rules={{ required: t("validation.required") }}
                 render={({ field: controllerField }) => (
                   <input
                     {...controllerField}
@@ -1249,7 +1259,7 @@ function Form() {
           ))}
         </div>
 
-        <h3 className="subsection-title">Permanent Address</h3>
+        <h3 className="subsection-title">{t("step2.permanentAddress")}</h3>
         <div className="form-field" style={{ marginBottom: "1.5rem" }}>
           <label className="form-label">
             <input
@@ -1257,7 +1267,7 @@ function Form() {
               onChange={handleSameAsCurrentAddress}
               className="checkbox-input"
             />
-            Same as current address
+            {t("step2.sameAsCurrentAddress")}
           </label>
         </div>
 
@@ -1271,16 +1281,12 @@ function Form() {
           ].map((field) => (
             <div className="form-field" key={field}>
               <label className="form-label">
-                {field
-                  .replace("permanent", "")
-                  .replace(/([A-Z])/g, " $1")
-                  .trim()}{" "}
-                <span className="required">*</span>
+                {addressLabels[field]} <span className="required">*</span>
               </label>
               <Controller
                 name={field as keyof FormData}
                 control={control}
-                rules={{ required: "This field is required" }}
+                rules={{ required: t("validation.required") }}
                 render={({ field: controllerField }) => (
                   <input
                     {...controllerField}
@@ -1299,19 +1305,19 @@ function Form() {
           ))}
         </div>
 
-        <h3 className="subsection-title">Contact Information</h3>
+        <h3 className="subsection-title">{t("step2.contactInfo")}</h3>
         <div className="form-field">
           <label className="form-label">
-            Contact Number <span className="required">*</span>
+            {t("step2.contactNumber")} <span className="required">*</span>
           </label>
           <Controller
             name="contactNumber"
             control={control}
             rules={{
-              required: "Contact number is required",
+              required: t("validation.required"),
               pattern: {
                 value: /^[0-9+\-\s()]*$/,
-                message: "Invalid contact number",
+                message: t("validation.invalidPhone"),
               },
             }}
             render={({ field }) => (
@@ -1325,16 +1331,16 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Email Address <span className="required">*</span>
+            {t("step2.emailAddress")} <span className="required">*</span>
           </label>
           <Controller
             name="emailAddress"
             control={control}
             rules={{
-              required: "Email is required",
+              required: t("validation.required"),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
+                message: t("validation.invalidEmail"),
               },
             }}
             render={({ field }) => (
@@ -1372,22 +1378,28 @@ function Form() {
 
     return (
       <div className="form-section">
-        <h2 className="section-title">Family Information</h2>
+        <h2 className="section-title">{t("step3.title")}</h2>
 
         <div className="form-field">
           <label className="form-label">
-            Marital Status <span className="required">*</span>
+            {t("step3.maritalStatus")} <span className="required">*</span>
           </label>
           <Controller
             name="maritalStatus"
             control={control}
-            rules={{ required: "Marital status is required" }}
+            rules={{ required: t("validation.required") }}
             render={({ field }) => (
               <select {...field} className="form-input">
-                <option value="">Select Marital Status</option>
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Divorced">Divorced</option>
+                <option value="">{t("step3.maritalStatus")}</option>
+                <option value="Single">
+                  {t("step3.maritalStatus.single")}
+                </option>
+                <option value="Married">
+                  {t("step3.maritalStatus.married")}
+                </option>
+                <option value="Divorced">
+                  {t("step3.maritalStatus.divorced")}
+                </option>
               </select>
             )}
           />
@@ -1398,12 +1410,12 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Father's Name <span className="required">*</span>
+            {t("step3.fatherName")} <span className="required">*</span>
           </label>
           <Controller
             name="fatherName"
             control={control}
-            rules={{ required: "Father's name is required" }}
+            rules={{ required: t("validation.required") }}
             render={({ field }) => (
               <input {...field} type="text" className="form-input" />
             )}
@@ -1415,12 +1427,12 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Mother's Name <span className="required">*</span>
+            {t("step3.motherName")} <span className="required">*</span>
           </label>
           <Controller
             name="motherName"
             control={control}
-            rules={{ required: "Mother's name is required" }}
+            rules={{ required: t("validation.required") }}
             render={({ field }) => (
               <input {...field} type="text" className="form-input" />
             )}
@@ -1432,12 +1444,12 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Grandfather's Name <span className="required">*</span>
+            {t("step3.grandfatherName")} <span className="required">*</span>
           </label>
           <Controller
             name="grandfatherName"
             control={control}
-            rules={{ required: "Grandfather's name is required" }}
+            rules={{ required: t("validation.required") }}
             render={({ field }) => (
               <input {...field} type="text" className="form-input" />
             )}
@@ -1450,7 +1462,7 @@ function Form() {
           <>
             <div className="form-field">
               <label className="form-label">
-                Spouse Name <span className="required">*</span>
+                {t("step3.spouseName")} <span className="required">*</span>
               </label>
               <Controller
                 name="spouseName"
@@ -1472,7 +1484,7 @@ function Form() {
           <>
             <div className="form-field">
               <label className="form-label">
-                Father-in-Law's Name <span className="required">*</span>
+                {t("step3.fatherInLawName")} <span className="required">*</span>
               </label>
               <Controller
                 name="fatherInLawName"
@@ -1495,7 +1507,7 @@ function Form() {
 
             <div className="form-field">
               <label className="form-label">
-                Mother-in-Law's Name <span className="required">*</span>
+                {t("step3.motherInLawName")} <span className="required">*</span>
               </label>
               <Controller
                 name="motherInLawName"
@@ -1530,7 +1542,7 @@ function Form() {
         </div> */}
 
         <div className="form-field">
-          <label className="form-label">Children's Names</label>
+          <label className="form-label">{t("step3.childrenNames")}</label>
           {childrenNames.map((childName, index) => (
             <div
               key={index}
@@ -1584,34 +1596,31 @@ function Form() {
 
   const renderStep4 = () => (
     <div className="form-section">
-      <h2 className="section-title">Bank Details</h2>
+      <h2 className="section-title">{t("step4.title")}</h2>
 
       <div className="form-field">
         <label className="form-label">
-          Account Type <span className="required">*</span>
+          {t("step4.accountType")} <span className="required">*</span>
         </label>
         <div className="radio-group">
-          {["Savings", "Current", "Business"].map((type) => (
+          {["savings", "current", "business"].map((type) => (
             <div className="radio-item" key={type}>
               <Controller
                 name="accountType"
                 control={control}
-                rules={{ required: "Account type is required" }}
+                rules={{ required: t("validation.required") }}
                 render={({ field }) => (
                   <input
                     type="radio"
-                    id={`account-${type.toLowerCase()}`}
+                    id={`account-${type}`}
                     checked={field.value === type}
                     onChange={() => field.onChange(type)}
                     className="radio-input"
                   />
                 )}
               />
-              <label
-                htmlFor={`account-${type.toLowerCase()}`}
-                className="radio-label"
-              >
-                {type} Account
+              <label htmlFor={`account-${type}`} className="radio-label">
+                {t(`step4.accountType.${type}`)}
               </label>
             </div>
           ))}
@@ -1623,12 +1632,12 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Account Number <span className="required">*</span>
+          {t("step4.accountNumber")} <span className="required">*</span>
         </label>
         <Controller
           name="bankAccount"
           control={control}
-          rules={{ required: "Account number is required" }}
+          rules={{ required: t("validation.required") }}
           render={({ field }) => (
             <input {...field} type="text" className="form-input" />
           )}
@@ -1640,12 +1649,12 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Bank Name <span className="required">*</span>
+          {t("step4.bankName")} <span className="required">*</span>
         </label>
         <Controller
           name="bankName"
           control={control}
-          rules={{ required: "Bank name is required" }}
+          rules={{ required: t("validation.required") }}
           render={({ field }) => (
             <input {...field} type="text" className="form-input" />
           )}
@@ -1657,12 +1666,12 @@ function Form() {
 
       <div className="form-field">
         <label className="form-label">
-          Bank Address <span className="required">*</span>
+          {t("step4.bankAddress")} <span className="required">*</span>
         </label>
         <Controller
           name="bankAddress"
           control={control}
-          rules={{ required: "Bank address is required" }}
+          rules={{ required: t("validation.required") }}
           render={({ field }) => (
             <input {...field} type="text" className="form-input" />
           )}
@@ -1676,43 +1685,41 @@ function Form() {
 
   const renderStep5 = () => (
     <div className="form-section">
-      <h2 className="section-title">Occupation & Finance Details</h2>
+      <h2 className="section-title">{t("step5.title")}</h2>
 
+      {/* Occupation Type */}
       <div className="form-field">
         <label className="form-label">
-          Occupation Type <span className="required">*</span>
+          {t("step5.occupationType")} <span className="required">*</span>
         </label>
         <div className="radio-group">
           {[
-            "Government",
-            "Private",
-            "Business",
-            "Agriculture",
-            "INGO/NGO",
-            "Student",
-            "Retired",
-            "Other",
+            "government",
+            "private",
+            "business",
+            "agriculture",
+            "ingo",
+            "student",
+            "retired",
+            "other",
           ].map((type) => (
             <div className="radio-item" key={type}>
               <Controller
                 name="occupationType"
                 control={control}
-                rules={{ required: "Occupation type is required" }}
+                rules={{ required: t("validation.required") }}
                 render={({ field }) => (
                   <input
                     type="radio"
-                    id={`occupation-${type.toLowerCase()}`}
+                    id={`occupation-${type}`}
                     checked={field.value === type}
                     onChange={() => field.onChange(type)}
                     className="radio-input"
                   />
                 )}
               />
-              <label
-                htmlFor={`occupation-${type.toLowerCase()}`}
-                className="radio-label"
-              >
-                {type}
+              <label htmlFor={`occupation-${type}`} className="radio-label">
+                {t(`step5.occupationType.${type}`)}
               </label>
             </div>
           ))}
@@ -1720,22 +1727,21 @@ function Form() {
         {errors.occupationType && (
           <p className="error-message">{errors.occupationType.message}</p>
         )}
-        {occupationType === "Other" && (
+        {occupationType === "other" && (
           <div className="form-field">
             <label className="form-label">
-              Please specify your occupation type{" "}
-              <span className="required">*</span>
+              {t("step5.occupationSpecify")} <span className="required">*</span>
             </label>
             <Controller
               name="occupationOther"
               control={control}
-              rules={{ required: "Please specify your occupation type" }}
+              rules={{ required: t("step5.occupationSpecify") }}
               render={({ field }) => (
                 <input
                   {...field}
                   type="text"
                   className="form-input"
-                  placeholder="Enter your occupation type"
+                  placeholder={t("step5.occupationSpecify")}
                 />
               )}
             />
@@ -1746,32 +1752,30 @@ function Form() {
         )}
       </div>
 
+      {/* Business Type */}
       <div className="form-field">
         <label className="form-label">
-          Business Type <span className="required">*</span>
+          {t("step5.businessType")} <span className="required">*</span>
         </label>
         <div className="radio-group">
-          {["Manufacturing", "Service Oriented", "Other"].map((type) => (
+          {["manufacturing", "service", "other"].map((type) => (
             <div className="radio-item" key={type}>
               <Controller
                 name="businessType"
                 control={control}
-                rules={{ required: "Business type is required" }}
+                rules={{ required: t("validation.required") }}
                 render={({ field }) => (
                   <input
                     type="radio"
-                    id={`business-${type.toLowerCase().replace(" ", "-")}`}
+                    id={`business-${type}`}
                     checked={field.value === type}
                     onChange={() => field.onChange(type)}
                     className="radio-input"
                   />
                 )}
               />
-              <label
-                htmlFor={`business-${type.toLowerCase().replace(" ", "-")}`}
-                className="radio-label"
-              >
-                {type}
+              <label htmlFor={`business-${type}`} className="radio-label">
+                {t(`step5.businessType.${type}`)}
               </label>
             </div>
           ))}
@@ -1779,22 +1783,22 @@ function Form() {
         {errors.businessType && (
           <p className="error-message">{errors.businessType.message}</p>
         )}
-        {businessType === "Other" && (
+        {businessType === "other" && (
           <div className="form-field">
             <label className="form-label">
-              Please specify your business type{" "}
+              {t("step5.businessTypeSpecify")}{" "}
               <span className="required">*</span>
             </label>
             <Controller
               name="businessTypeOther"
               control={control}
-              rules={{ required: "Please specify your business type" }}
+              rules={{ required: t("step5.businessTypeSpecify") }}
               render={({ field }) => (
                 <input
                   {...field}
                   type="text"
                   className="form-input"
-                  placeholder="Enter your business type"
+                  placeholder={t("step5.businessTypeSpecify")}
                 />
               )}
             />
@@ -1807,14 +1811,15 @@ function Form() {
         )}
       </div>
 
+      {/* Organization Name */}
       <div className="form-field">
         <label className="form-label">
-          Organization Name <span className="required">*</span>
+          {t("step5.organizationName")} <span className="required">*</span>
         </label>
         <Controller
           name="organizationName"
           control={control}
-          rules={{ required: "Organization name is required" }}
+          rules={{ required: t("validation.required") }}
           render={({ field }) => (
             <input {...field} type="text" className="form-input" />
           )}
@@ -1824,14 +1829,15 @@ function Form() {
         )}
       </div>
 
+      {/* Organization Address */}
       <div className="form-field">
         <label className="form-label">
-          Organization Address <span className="required">*</span>
+          {t("step5.organizationAddress")} <span className="required">*</span>
         </label>
         <Controller
           name="organizationAddress"
           control={control}
-          rules={{ required: "Organization address is required" }}
+          rules={{ required: t("validation.required") }}
           render={({ field }) => (
             <input {...field} type="text" className="form-input" />
           )}
@@ -1841,12 +1847,13 @@ function Form() {
         )}
       </div>
 
+      {/* Designation */}
       <div className="form-field">
-        <label className="form-label">Designation</label>
+        <label className="form-label">{t("step5.designation")}</label>
         <Controller
           name="designation"
           control={control}
-          rules={{ required: "Designation is required" }}
+          rules={{ required: t("validation.required") }}
           render={({ field }) => (
             <input {...field} type="text" className="form-input" />
           )}
@@ -1856,12 +1863,13 @@ function Form() {
         )}
       </div>
 
+      {/* Employee ID */}
       <div className="form-field">
-        <label className="form-label">Employee ID</label>
+        <label className="form-label">{t("step5.employeeId")}</label>
         <Controller
           name="employeeId"
           control={control}
-          rules={{ required: "Employee ID is required" }}
+          rules={{ required: t("validation.required") }}
           render={({ field }) => (
             <input {...field} type="text" className="form-input" />
           )}
@@ -1870,14 +1878,16 @@ function Form() {
           <p className="error-message">{errors.employeeId.message}</p>
         )}
       </div>
+
+      {/* Annual Income */}
       <div className="form-field">
         <label className="form-label">
-          Annual Income <span className="required">*</span>
+          {t("step5.annualIncome")} <span className="required">*</span>
         </label>
         <Controller
           name="annualIncome"
           control={control}
-          rules={{ required: "Annual income is required" }}
+          rules={{ required: t("validation.required") }}
           render={({ field }) => {
             const currentValue = field.value || 0;
             return (
@@ -1912,12 +1922,11 @@ function Form() {
       </div>
     </div>
   );
-
   const renderStep6 = () => {
     if (userAge !== null && userAge >= 18) {
       return (
         <div className="form-section">
-          <h2 className="section-title">Guardian Information</h2>
+          <h2 className="section-title">{t("step6.title")}</h2>
           <div
             style={{
               padding: "2rem",
@@ -1934,10 +1943,10 @@ function Form() {
                 fontWeight: "600",
               }}
             >
-              Guardian information is not required for adults (18+ years).
+              {t("step6.notRequired")}
             </p>
             <p style={{ color: "#065f46", marginTop: "0.5rem" }}>
-              You are {userAge} years old.
+              {t("step6.minorNotice", { age: userAge })}
             </p>
           </div>
         </div>
@@ -1965,7 +1974,7 @@ function Form() {
 
     return (
       <div className="form-section">
-        <h2 className="section-title">Guardian Information</h2>
+        <h2 className="section-title">{t("step6.title")}</h2>
         {userAge !== null && (
           <div
             style={{
@@ -1977,20 +1986,19 @@ function Form() {
             }}
           >
             <p style={{ color: "#92400e" }}>
-              <strong>Age:</strong> {userAge} years old - Guardian information
-              is required.
+              {t("step6.minorNotice", { age: userAge })}
             </p>
           </div>
         )}
 
         <div className="form-field">
           <label className="form-label">
-            Guardian Name <span className="required">*</span>
+            {t("step6.guardianName")} <span className="required">*</span>
           </label>
           <Controller
             name="guardianName"
             control={control}
-            rules={{ required: "Guardian name is required" }}
+            rules={{ required: t("validation.required") }}
             render={({ field }) => (
               <input {...field} type="text" className="form-input" />
             )}
@@ -2002,19 +2010,21 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Relationship <span className="required">*</span>
+            {t("step6.relationship")} <span className="required">*</span>
           </label>
           <Controller
             name="relationship"
             control={control}
-            rules={{ required: "Relationship is required" }}
+            rules={{ required: t("validation.required") }}
             render={({ field }) => (
               <select {...field} className="form-input">
-                <option value="">Select Relationship</option>
-                <option value="Father">Father</option>
-                <option value="Mother">Mother</option>
-                <option value="Legal Guardian">Legal Guardian</option>
-                <option value="Other">Other</option>
+                <option value="">{t("select")}</option>
+                <option value="Father">{t("step6.relationship.father")}</option>
+                <option value="Mother">{t("step6.relationship.mother")}</option>
+                <option value="Legal Guardian">
+                  {t("step6.relationship.guardian")}
+                </option>
+                <option value="Other">{t("step6.relationship.other")}</option>
               </select>
             )}
           />
@@ -2030,17 +2040,39 @@ function Form() {
               onChange={handleSameAsCurrentGuardian}
               className="checkbox-input"
             />{" "}
-            Same as current address
+            {t("sameAsCurrentAddress")}
           </label>
         </div>
 
         <div className="grid-2-cols">
           {[
-            { name: "guardianWardNo", label: "Ward No" },
-            { name: "guardianMunicipality", label: "Municipality" },
-            { name: "guardianDistrict", label: "District" },
-            { name: "guardianProvince", label: "Province" },
-            { name: "guardianCountry", label: "Country" },
+            {
+              name: "guardianWardNo",
+              label:
+                t("step6.guardianAddress") + " - " + t("step2.currentWardNo"),
+            },
+            {
+              name: "guardianMunicipality",
+              label:
+                t("step6.guardianAddress") +
+                " - " +
+                t("step2.currentMunicipality"),
+            },
+            {
+              name: "guardianDistrict",
+              label:
+                t("step6.guardianAddress") + " - " + t("step2.currentDistrict"),
+            },
+            {
+              name: "guardianProvince",
+              label:
+                t("step6.guardianAddress") + " - " + t("step2.currentProvince"),
+            },
+            {
+              name: "guardianCountry",
+              label:
+                t("step6.guardianAddress") + " - " + t("step2.currentCountry"),
+            },
           ].map(({ name, label }) => (
             <div className="form-field" key={name}>
               <label className="form-label">
@@ -2049,7 +2081,7 @@ function Form() {
               <Controller
                 name={name as keyof FormData}
                 control={control}
-                rules={{ required: `${label} is required` }}
+                rules={{ required: t("validation.required") }}
                 render={({ field }) => (
                   <input
                     type="text"
@@ -2073,16 +2105,16 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Mobile Number <span className="required">*</span>
+            {t("step6.mobileNumber")} <span className="required">*</span>
           </label>
           <Controller
             name="mobileNumber"
             control={control}
             rules={{
-              required: "Mobile number is required",
+              required: t("validation.required"),
               pattern: {
                 value: /^[0-9+\-\s()]*$/,
-                message: "Invalid mobile number",
+                message: t("validation.invalidPhone"),
               },
             }}
             render={({ field }) => (
@@ -2101,16 +2133,16 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Email <span className="required">*</span>
+            {t("step6.email")} <span className="required">*</span>
           </label>
           <Controller
             name="email"
             control={control}
             rules={{
-              required: "Email is required",
+              required: t("validation.required"),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
+                message: t("validation.invalidEmail"),
               },
             }}
             render={({ field }) => (
@@ -2128,7 +2160,7 @@ function Form() {
         </div>
 
         <div className="form-field">
-          <label className="form-label">Guardian PAN Number</label>
+          <label className="form-label">{t("step6.panNumber")}</label>
           <Controller
             name="panNumberGuardian"
             control={control}
@@ -2140,12 +2172,13 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Birth Registration Number <span className="required">*</span>
+            {t("step6.birthRegistrationNumber")}{" "}
+            <span className="required">*</span>
           </label>
           <Controller
             name="birthRegistrationNumber"
             control={control}
-            rules={{ required: "Birth registration number is required" }}
+            rules={{ required: t("validation.required") }}
             render={({ field }) => (
               <input {...field} type="text" className="form-input" />
             )}
@@ -2159,18 +2192,18 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Issue Date <span className="required">*</span>
+            {t("step6.issueDate")} <span className="required">*</span>
           </label>
           <div className="grid-2-cols">
             <div className="date-column">
-              <label className="small-label">English Date (AD)</label>
+              <label className="small-label">{t("step6.issueDateAD")}</label>
               <Controller
                 name="issueDate"
                 control={control}
                 rules={{
-                  required: "Issue date is required",
+                  required: t("validation.required"),
                   validate: (v) =>
-                    !v || v <= todayStr || "Date cannot be in the future",
+                    !v || v <= todayStr || t("validation.futureDate"),
                 }}
                 render={({ field }) => (
                   <input
@@ -2192,7 +2225,7 @@ function Form() {
             </div>
 
             <div className="date-column">
-              <label className="small-label">Nepali Date (BS)</label>
+              <label className="small-label">{t("step6.issueDateBS")}</label>
               <Controller
                 name="issueDateBS"
                 control={control}
@@ -2200,9 +2233,7 @@ function Form() {
                   validate: (v) => {
                     if (!v) return true;
                     const ad = bsToAd(v);
-                    return (
-                      (ad && ad <= todayStr) || "Date cannot be in the future"
-                    );
+                    return (ad && ad <= todayStr) || t("validation.futureDate");
                   },
                 }}
                 render={({ field }) => (
@@ -2231,18 +2262,18 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Issue Authority <span className="required">*</span>
+            {t("step6.issueAuthority")} <span className="required">*</span>
           </label>
           <Controller
             name="issueAuthority"
             control={control}
-            rules={{ required: "Issue authority is required" }}
+            rules={{ required: t("validation.required") }}
             render={({ field }) => (
               <input
                 {...field}
                 type="text"
                 className="form-input"
-                placeholder="e.g., District Administration Office"
+                placeholder={t("step6.issueAuthority")}
               />
             )}
           />
@@ -2253,7 +2284,7 @@ function Form() {
 
         <div className="form-field">
           <label className="form-label">
-            Guardian Signature <span className="required">*</span>
+            {t("step6.guardianSignature")} <span className="required">*</span>
           </label>
           <div
             style={{
@@ -2276,7 +2307,7 @@ function Form() {
               onClick={clearSignature}
               className="btn btn-secondary"
             >
-              Clear
+              {t("clear")}
             </button>
             <button
               type="button"
@@ -2284,7 +2315,7 @@ function Form() {
               className="btn btn-secondary"
               style={{ marginLeft: "10px" }}
             >
-              Save
+              {t("save")}
             </button>
           </div>
         </div>
@@ -2294,7 +2325,7 @@ function Form() {
   const renderStep7 = () => {
     return (
       <div className="form-section">
-        <h2 className="section-title">Investment Disclosure</h2>
+        <h2 className="section-title">{t("step7.investmentTitle")}</h2>
         <div className="form-field">
           <label className="form-label">
             <Controller
@@ -2309,13 +2340,13 @@ function Form() {
                 />
               )}
             />
-            I am involved in other investment companies
+            {t("step7.investmentQuestion")}
           </label>
         </div>
 
         {investmentInvolved && (
           <div className="form-field">
-            <label className="form-label">Details (if any)</label>
+            <label className="form-label">{t("step7.investmentDetails")}</label>
             <Controller
               name="investmentDetails"
               control={control}
@@ -2324,7 +2355,7 @@ function Form() {
                   {...field}
                   className="form-textarea"
                   rows={4}
-                  placeholder="Please provide details about your investment companies"
+                  placeholder={t("step7.investmentDetails")}
                 />
               )}
             />
@@ -2332,10 +2363,10 @@ function Form() {
         )}
 
         <h2 className="section-title" style={{ marginTop: "2rem" }}>
-          Legal Consent
+          {t("step7.legalTitle")}
         </h2>
         <div className="form-field">
-          <label className="form-label">Declaration</label>
+          <label className="form-label">{t("step7.legalDeclaration")}</label>
           <Controller
             name="legalDeclaration"
             control={control}
@@ -2344,7 +2375,7 @@ function Form() {
                 {...field}
                 className="form-textarea"
                 rows={5}
-                placeholder="Enter your legal declaration here"
+                placeholder={t("step7.legalDeclaration")}
               />
             )}
           />
@@ -2355,7 +2386,7 @@ function Form() {
             <Controller
               name="legalConsent"
               control={control}
-              rules={{ required: "You must accept legal responsibility" }}
+              rules={{ required: t("validation.legalConsent") }}
               render={({ field }) => (
                 <input
                   type="checkbox"
@@ -2365,8 +2396,7 @@ function Form() {
                 />
               )}
             />
-            I confirm the above information is true and I accept legal
-            responsibility.
+            {t("step7.legalConsent")}
           </label>
           {errors.legalConsent && (
             <p className="error-message">{errors.legalConsent.message}</p>
@@ -2374,12 +2404,10 @@ function Form() {
         </div>
 
         <h2 className="section-title" style={{ marginTop: "2rem" }}>
-          Location Map
+          {t("step7.locationMapTitle")}
         </h2>
         <div className="form-group">
-          <label className="form-label">
-            Click on the map to select your location
-          </label>
+          <label className="form-label">{t("step7.locationInstruction")}</label>
           <div style={{ height: "400px", width: "100%", marginBottom: "1rem" }}>
             <MapContainer
               center={mapPosition}
@@ -2393,7 +2421,7 @@ function Form() {
               <LocationPicker />
               <Marker position={mapPosition}>
                 <Popup>
-                  Selected Location
+                  {t("step7.locationMapTitle")}
                   <br />
                   Lat: {mapPosition[0].toFixed(6)}
                   <br />
@@ -2410,7 +2438,7 @@ function Form() {
             }}
           >
             <p>
-              <strong>Selected Location:</strong>
+              <strong>{t("step7.locationMapTitle")}:</strong>
             </p>
             <p>Latitude: {mapPosition[0].toFixed(6)}</p>
             <p>Longitude: {mapPosition[1].toFixed(6)}</p>
@@ -2429,7 +2457,7 @@ function Form() {
                 fontWeight: "500",
               }}
             >
-              📸 Take Screenshot of Location
+              📸 {t("step7.captureScreenshot")}
             </button>
           </div>
         </div>
@@ -2447,11 +2475,9 @@ function Form() {
         const maxSize = 5 * 1024 * 1024; // 5MB
         if (file.size > maxSize) {
           alert(
-            `❌ File size exceeds 5MB limit. Your file is ${(
-              file.size /
-              1024 /
-              1024
-            ).toFixed(2)}MB`
+            `❌ ${t("validation.fileSizeExceeded", {
+              size: (file.size / 1024 / 1024).toFixed(2),
+            })}`
           );
           return;
         }
@@ -2459,7 +2485,7 @@ function Form() {
         // Validate file type
         const validTypes = ["image/jpeg", "image/png", "application/pdf"];
         if (!validTypes.includes(file.type)) {
-          alert("❌ Invalid file type. Please upload JPG, PNG, or PDF only.");
+          alert(t("validation.invalidFileType"));
           return;
         }
 
@@ -2492,16 +2518,13 @@ function Form() {
 
     return (
       <div className="form-section">
-        <h2 className="section-title">Document Upload</h2>
-        <p className="section-description">
-          Please upload clear images of the required documents. Accepted
-          formats: JPG, PNG, PDF (Max 5MB each)
-        </p>
+        <h2 className="section-title">{t("step8.title")}</h2>
+        <p className="section-description">{t("step8.description")}</p>
 
         {/* Citizenship Front */}
         <div className="form-field">
           <label className="form-label">
-            Citizenship Certificate (Front) <span className="required">*</span>
+            {t("step8.citizenshipFront")} <span className="required">*</span>
           </label>
           <input
             type="file"
@@ -2512,7 +2535,9 @@ function Form() {
           {watch("citizenshipFrontImage") && (
             <div className="upload-preview">
               <div className="upload-status">
-                <span className="upload-success">✓ File uploaded</span>
+                <span className="upload-success">
+                  ✓ {t("step8.fileUploaded")}
+                </span>
                 <span className="upload-size">
                   {getFileSize(watch("citizenshipFrontImage"))}
                 </span>
@@ -2531,7 +2556,7 @@ function Form() {
                 onClick={() => removeImage("citizenshipFrontImage")}
                 className="btn-remove-file"
               >
-                ✕ Remove
+                ✕ {t("remove")}
               </button>
             </div>
           )}
@@ -2545,7 +2570,7 @@ function Form() {
         {/* Citizenship Back */}
         <div className="form-field">
           <label className="form-label">
-            Citizenship Certificate (Back) <span className="required">*</span>
+            {t("step8.citizenshipBack")} <span className="required">*</span>
           </label>
           <input
             type="file"
@@ -2556,7 +2581,9 @@ function Form() {
           {watch("citizenshipBackImage") && (
             <div className="upload-preview">
               <div className="upload-status">
-                <span className="upload-success">✓ File uploaded</span>
+                <span className="upload-success">
+                  ✓ {t("step8.fileUploaded")}
+                </span>
                 <span className="upload-size">
                   {getFileSize(watch("citizenshipBackImage"))}
                 </span>
@@ -2575,7 +2602,7 @@ function Form() {
                 onClick={() => removeImage("citizenshipBackImage")}
                 className="btn-remove-file"
               >
-                ✕ Remove
+                ✕ {t("remove")}
               </button>
             </div>
           )}
@@ -2590,7 +2617,7 @@ function Form() {
         {watch("nationality") === "Other" && (
           <div className="form-field">
             <label className="form-label">
-              Passport Copy <span className="required">*</span>
+              {t("step8.passport")} <span className="required">*</span>
             </label>
             <input
               type="file"
@@ -2601,7 +2628,9 @@ function Form() {
             {watch("passportImage") && (
               <div className="upload-preview">
                 <div className="upload-status">
-                  <span className="upload-success">✓ File uploaded</span>
+                  <span className="upload-success">
+                    ✓ {t("step8.fileUploaded")}
+                  </span>
                   <span className="upload-size">
                     {getFileSize(watch("passportImage"))}
                   </span>
@@ -2620,7 +2649,7 @@ function Form() {
                   onClick={() => removeImage("passportImage")}
                   className="btn-remove-file"
                 >
-                  ✕ Remove
+                  ✕ {t("remove")}
                 </button>
               </div>
             )}
@@ -2630,7 +2659,7 @@ function Form() {
         {/* Recent Photo */}
         <div className="form-field">
           <label className="form-label">
-            Recent Passport Size Photo <span className="required">*</span>
+            {t("step8.photo")} <span className="required">*</span>
           </label>
           <input
             type="file"
@@ -2641,7 +2670,9 @@ function Form() {
           {watch("photoImage") && (
             <div className="upload-preview">
               <div className="upload-status">
-                <span className="upload-success">✓ File uploaded</span>
+                <span className="upload-success">
+                  ✓ {t("step8.fileUploaded")}
+                </span>
                 <span className="upload-size">
                   {getFileSize(watch("photoImage"))}
                 </span>
@@ -2658,7 +2689,7 @@ function Form() {
                 onClick={() => removeImage("photoImage")}
                 className="btn-remove-file"
               >
-                ✕ Remove
+                ✕ {t("remove")}
               </button>
             </div>
           )}
@@ -2669,7 +2700,7 @@ function Form() {
 
         {/* PAN Card (Optional) */}
         <div className="form-field">
-          <label className="form-label">PAN Card Copy (Optional)</label>
+          <label className="form-label">{t("step8.panCard")}</label>
           <input
             type="file"
             accept="image/*,application/pdf"
@@ -2679,7 +2710,9 @@ function Form() {
           {watch("panCardImage") && (
             <div className="upload-preview">
               <div className="upload-status">
-                <span className="upload-success">✓ File uploaded</span>
+                <span className="upload-success">
+                  ✓ {t("step8.fileUploaded")}
+                </span>
                 <span className="upload-size">
                   {getFileSize(watch("panCardImage"))}
                 </span>
@@ -2698,7 +2731,7 @@ function Form() {
                 onClick={() => removeImage("panCardImage")}
                 className="btn-remove-file"
               >
-                ✕ Remove
+                ✕ {t("remove")}
               </button>
             </div>
           )}
@@ -2707,7 +2740,7 @@ function Form() {
         {/* Fingerprint Image */}
         <div className="form-field">
           <label className="form-label">
-            Fingerprint Image <span className="required">*</span>
+            {t("step8.fingerprint")} <span className="required">*</span>
           </label>
           <input
             type="file"
@@ -2718,7 +2751,9 @@ function Form() {
           {watch("fingerprintImage") && (
             <div className="upload-preview">
               <div className="upload-status">
-                <span className="upload-success">✓ File uploaded</span>
+                <span className="upload-success">
+                  ✓ {t("step8.fileUploaded")}
+                </span>
                 <span className="upload-size">
                   {getFileSize(watch("fingerprintImage"))}
                 </span>
@@ -2735,7 +2770,7 @@ function Form() {
                 onClick={() => removeImage("fingerprintImage")}
                 className="btn-remove-file"
               >
-                ✕ Remove
+                ✕ {t("remove")}
               </button>
             </div>
           )}
@@ -2747,7 +2782,7 @@ function Form() {
         {/* Location Map Image */}
         <div className="form-field">
           <label className="form-label">
-            Location Map Screenshot <span className="required">*</span>
+            {t("step8.locationMap")} <span className="required">*</span>
           </label>
           <input
             type="file"
@@ -2758,7 +2793,9 @@ function Form() {
           {watch("locationMapImage") && (
             <div className="upload-preview">
               <div className="upload-status">
-                <span className="upload-success">✓ File uploaded</span>
+                <span className="upload-success">
+                  ✓ {t("step8.fileUploaded")}
+                </span>
                 <span className="upload-size">
                   {getFileSize(watch("locationMapImage"))}
                 </span>
@@ -2775,7 +2812,7 @@ function Form() {
                 onClick={() => removeImage("locationMapImage")}
                 className="btn-remove-file"
               >
-                ✕ Remove
+                ✕ {t("remove")}
               </button>
             </div>
           )}
@@ -2788,12 +2825,13 @@ function Form() {
         {isMinorByAge && (
           <>
             <h3 className="subsection-title" style={{ marginTop: "2rem" }}>
-              Guardian Documents (Required for Minors)
+              {t("step8.guardianDocuments")}
             </h3>
 
             <div className="form-field">
               <label className="form-label">
-                Birth Certificate <span className="required">*</span>
+                {t("step8.birthCertificate")}{" "}
+                <span className="required">*</span>
               </label>
               <input
                 type="file"
@@ -2804,7 +2842,9 @@ function Form() {
               {watch("birthCertificateImage") && (
                 <div className="upload-preview">
                   <div className="upload-status">
-                    <span className="upload-success">✓ File uploaded</span>
+                    <span className="upload-success">
+                      ✓ {t("step8.fileUploaded")}
+                    </span>
                     <span className="upload-size">
                       {getFileSize(watch("birthCertificateImage"))}
                     </span>
@@ -2823,7 +2863,7 @@ function Form() {
                     onClick={() => removeImage("birthCertificateImage")}
                     className="btn-remove-file"
                   >
-                    ✕ Remove
+                    ✕ {t("remove")}
                   </button>
                 </div>
               )}
@@ -2831,7 +2871,7 @@ function Form() {
 
             <div className="form-field">
               <label className="form-label">
-                Guardian's Citizenship Certificate{" "}
+                {t("step8.guardianCitizenship")}{" "}
                 <span className="required">*</span>
               </label>
               <input
@@ -2845,7 +2885,9 @@ function Form() {
               {watch("guardianCitizenshipImage") && (
                 <div className="upload-preview">
                   <div className="upload-status">
-                    <span className="upload-success">✓ File uploaded</span>
+                    <span className="upload-success">
+                      ✓ {t("step8.fileUploaded")}
+                    </span>
                     <span className="upload-size">
                       {getFileSize(watch("guardianCitizenshipImage"))}
                     </span>
@@ -2864,7 +2906,7 @@ function Form() {
                     onClick={() => removeImage("guardianCitizenshipImage")}
                     className="btn-remove-file"
                   >
-                    ✕ Remove
+                    ✕ {t("remove")}
                   </button>
                 </div>
               )}
@@ -2872,7 +2914,7 @@ function Form() {
 
             <div className="form-field">
               <label className="form-label">
-                Guardian's Photo <span className="required">*</span>
+                {t("step8.guardianPhoto")} <span className="required">*</span>
               </label>
               <input
                 type="file"
@@ -2883,7 +2925,9 @@ function Form() {
               {watch("guardianPhotoImage") && (
                 <div className="upload-preview">
                   <div className="upload-status">
-                    <span className="upload-success">✓ File uploaded</span>
+                    <span className="upload-success">
+                      ✓ {t("step8.fileUploaded")}
+                    </span>
                     <span className="upload-size">
                       {getFileSize(watch("guardianPhotoImage"))}
                     </span>
@@ -2900,7 +2944,7 @@ function Form() {
                     onClick={() => removeImage("guardianPhotoImage")}
                     className="btn-remove-file"
                   >
-                    ✕ Remove
+                    ✕ {t("remove")}
                   </button>
                 </div>
               )}
@@ -2910,7 +2954,6 @@ function Form() {
       </div>
     );
   };
-
   const renderStep9 = () => {
     const formValues = getValues();
 
@@ -3086,6 +3129,30 @@ function Form() {
       ) : ( */}
       <FormProvider {...methods}>
         <div className="form-container">
+          {/* Language Toggle Button */}
+          <button
+            type="button"
+            onClick={() =>
+              i18n.changeLanguage(i18n.language === "en" ? "ne" : "en")
+            }
+            style={{
+              position: "fixed",
+              top: "20px",
+              right: "20px",
+              padding: "10px 20px",
+              backgroundColor: "#4F46E5",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: "600",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              zIndex: 1000,
+            }}
+          >
+            {i18n.language === "en" ? " नेपाली" : " English"}
+          </button>
           {currentStep !== totalStepsCount && (
             <div className="progress-container">
               <div className="progress-wrapper">
