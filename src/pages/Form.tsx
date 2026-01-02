@@ -695,7 +695,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder={t("step1.firstNamePlaceholder")}
+              placeholder={t("First Name")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -725,7 +725,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder={t("step1.middleNamePlaceholder")}
+              placeholder={t("Middle Name")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -755,7 +755,7 @@ function Form() {
               {...field}
               type="text"
               className="form-input"
-              placeholder={t("step1.lastNamePlaceholder")}
+              placeholder={t("Last Name")}
               onChange={(e) => {
                 field.onChange(e);
                 // Update fullName
@@ -3151,7 +3151,7 @@ function Form() {
               zIndex: 1000,
             }}
           >
-            {i18n.language === "en" ? "🇳🇵 नेपाली" : "🇬🇧 English"}
+            {i18n.language === "en" ? " नेपाली" : " English"}
           </button>
           {currentStep !== totalStepsCount && (
             <div className="progress-container">
