@@ -44,6 +44,9 @@ const resources = {
       "step1.panNumber": "PAN Number",
       "step1.identificationNo": "Identification No. (In case of NRN)",
       "step1.identificationAddress": "Identification Address (In case of NRN)",
+       // en
+      "step1.genderOther": "Specify other gender",
+      "step1.nationalityOther": "Specify other nationality",
 
       // Step 2 - Address Information
       "step2.title": "Address Information",
@@ -234,9 +237,7 @@ const resources = {
       "step1.panNumber": "प्यान नम्बर",
       "step1.identificationNo": "परिचय नम्बर (NRN को हकमा)",
       "step1.identificationAddress": "परिचय ठेगाना (NRN को हकमा)",
-      // en
-      "step1.genderOther": "Specify other gender",
-      "step1.nationalityOther": "Specify other nationality",
+     
 
       // ne
       "step1.genderOther": "अन्य लिङ्ग उल्लेख गर्नुहोस्",

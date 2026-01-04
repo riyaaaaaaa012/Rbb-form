@@ -686,6 +686,7 @@ function Form() {
         <label className="form-label">
           {t("step1.firstName")} <span className="required">*</span>
         </label>
+
         <Controller
           name="firstName"
           control={control}
@@ -697,14 +698,16 @@ function Form() {
               className="form-input"
               placeholder={t("First Name")}
               onChange={(e) => {
-                field.onChange(e);
                 // Update fullName
+                const upper = e.target.value.toUpperCase();
+
+                field.onChange(upper);
                 const firstName = e.target.value;
                 const middleName = getValues("middleName") || "";
                 const lastName = getValues("lastName") || "";
                 setValue(
                   "fullName",
-                  `${firstName} ${middleName} ${lastName}`.trim()
+                  `${upper}${firstName} ${middleName} ${lastName}`.trim()
                 );
               }}
             />
@@ -727,7 +730,7 @@ function Form() {
               className="form-input"
               placeholder={t("Middle Name")}
               onChange={(e) => {
-                field.onChange(e);
+                field.onChange(e.target.value.toUpperCase());
                 // Update fullName
                 const firstName = getValues("firstName") || "";
                 const middleName = e.target.value;
@@ -757,7 +760,7 @@ function Form() {
               className="form-input"
               placeholder={t("Last Name")}
               onChange={(e) => {
-                field.onChange(e);
+                field.onChange(e.target.value.toUpperCase());
                 // Update fullName
                 const firstName = getValues("firstName") || "";
                 const middleName = getValues("middleName") || "";
@@ -1417,7 +1420,14 @@ function Form() {
             control={control}
             rules={{ required: t("validation.required") }}
             render={({ field }) => (
-              <input {...field} type="text" className="form-input" />
+              <input
+                {...field}
+                type="text"
+                className="form-input"
+                onChange={(e) => {
+                  field.onChange(e.target.value.toUpperCase());
+                }}
+              />
             )}
           />
           {errors.fatherName && (
@@ -1434,7 +1444,14 @@ function Form() {
             control={control}
             rules={{ required: t("validation.required") }}
             render={({ field }) => (
-              <input {...field} type="text" className="form-input" />
+              <input
+                {...field}
+                type="text"
+                className="form-input"
+                onChange={(e) => {
+                  field.onChange(e.target.value.toUpperCase());
+                }}
+              />
             )}
           />
           {errors.motherName && (
@@ -1451,7 +1468,14 @@ function Form() {
             control={control}
             rules={{ required: t("validation.required") }}
             render={({ field }) => (
-              <input {...field} type="text" className="form-input" />
+              <input
+                {...field}
+                type="text"
+                className="form-input"
+                onChange={(e) => {
+                  field.onChange(e.target.value.toUpperCase());
+                }}
+              />
             )}
           />
           {errors.grandfatherName && (
@@ -1471,7 +1495,14 @@ function Form() {
                   required: showSpouseField ? "Spouse name is required" : false,
                 }}
                 render={({ field }) => (
-                  <input {...field} type="text" className="form-input" />
+                  <input
+                    {...field}
+                    type="text"
+                    className="form-input"
+                    onChange={(e) => {
+                      field.onChange(e.target.value.toUpperCase());
+                    }}
+                  />
                 )}
               />
               {errors.spouseName && (
@@ -1495,7 +1526,14 @@ function Form() {
                     : false,
                 }}
                 render={({ field }) => (
-                  <input {...field} type="text" className="form-input" />
+                  <input
+                    {...field}
+                    type="text"
+                    className="form-input"
+                    onChange={(e) => {
+                      field.onChange(e.target.value.toUpperCase());
+                    }}
+                  />
                 )}
               />
               {errors.fatherInLawName && (
@@ -1518,7 +1556,14 @@ function Form() {
                     : false,
                 }}
                 render={({ field }) => (
-                  <input {...field} type="text" className="form-input" />
+                  <input
+                    {...field}
+                    type="text"
+                    className="form-input"
+                    onChange={(e) => {
+                      field.onChange(e.target.value.toUpperCase());
+                    }}
+                  />
                 )}
               />
               {errors.motherInLawName && (
