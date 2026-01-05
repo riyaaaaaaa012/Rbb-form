@@ -16,23 +16,51 @@
   border-bottom: 2px solid #f0f0f0;
 }
 
-.progress-wrapper {
+.progress-bar-stepper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+}
+
+.progress-bar-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-circles-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 .progress-step {
   flex: 1;
   text-align: center;
   position: relative;
+  background: transparent;
 }
 
 .progress-circle {
   width: 40px;
   height: 40px;
-  margin: 0 auto 0.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -40,29 +68,99 @@
   font-weight: bold;
   font-size: 0.9rem;
   transition: all 0.3s ease;
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  border: 3px solid #e5e7eb;
+  position: relative;
+  z-index: 2;
 }
 
 .progress-circle.active {
   background-color: #2563eb;
   color: white;
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  border-color: #2563eb;
 }
 
-.progress-circle.inactive {
-  background-color: #e5e7eb;
-  color: #9ca3af;
+.progress-step.active .progress-label,
+.progress-circle.active + .progress-label {
+  color: #2563eb;
+  font-weight: 600;
 }
 
 .progress-label {
   font-size: 0.75rem;
   color: #6b7280;
+  margin-top: 0.25rem;
+  z-index: 2;
+  position: relative;
+}
+.progress-bar-stepper {
+  width: 100%;
+  margin: 32px 0 24px 0;
+  position: relative;
+  padding: 0 24px;
 }
 
-.progress-step.active .progress-label {
-  color: #2563eb;
+.progress-bar-track {
+  position: relative;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  height: 8px;
+  background: #2563eb;
+  border-radius: 4px;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  transition: width 0.3s;
+}
+
+.progress-circles-row {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.progress-step-circle {
+  width: 32px;
+  height: 32px;
+  background: #fff;
+  border: 3px solid #e5e7eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 600;
+  font-size: 1.1rem;
+  color: #111827;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+  pointer-events: auto;
 }
 
+.progress-step-circle.completed {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #fff;
+}
+
+.progress-step-circle.active {
+  border-color: #2563eb;
+  background: #fff;
+  color: #2563eb;
+}
 /* ==================== FORM SECTIONS ==================== */
 .form-section {
   padding: 1.5rem 0;
@@ -371,6 +469,20 @@
 
 .btn-secondary:hover {
   background-color: #e5e7eb;
+}
+
+/* Example for form section */
+.form-section {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 
 /* ==================== SIGNATURE CANVAS ==================== */

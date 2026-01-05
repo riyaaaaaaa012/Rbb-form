@@ -164,38 +164,58 @@ function Form() {
   const [emailVerified, setEmailVerified] = useState(false);
 
   // Initialize KYC session on mount
+  // useEffect(() => {
+  //   const initializeSession = async () => {
+  //     try {
+  //       const response = await api.post("/api/KycSession/initialize", {
+  //         email: "temp@example.com", // You can make this dynamic later
+  //         mobileNo: "9800000000",
+  //         ipAddress: null,
+  //         userAgent: navigator.userAgent,
+  //         deviceFingerprint: null,
+  //       });
+
+  //       const data = response.data;
+  //       setSessionId(data.sessionId);
+  //       sessionStorage.setItem("kycSessionId", data.sessionId.toString());
+  //       sessionStorage.setItem("kycSessionToken", data.sessionToken);
+  //       setSessionReady(true);
+  //       console.log("✅ KYC Session initialized:", data.sessionId);
+  //     } catch (error) {
+  //       console.error("❌ Failed to initialize session:", error);
+  //       alert("Failed to start KYC session. Please refresh the page.");
+  //     }
+  //   };
+  //  const existingSessionId = sessionStorage.getItem("kycSessionId");
+  //   if (existingSessionId) {
+  //     setSessionId(parseInt(existingSessionId));
+  //     setSessionReady(true);
+  //   } else {
+  //     //initializeSession();
+  //   }
+  // }, []);
+
+  // Check if session already exists in sessionStorage
+
   useEffect(() => {
-    const initializeSession = async () => {
-      try {
-        const response = await api.post("/api/KycSession/initialize", {
-          email: "temp@example.com", // You can make this dynamic later
-          mobileNo: "9800000000",
-          ipAddress: null,
-          userAgent: navigator.userAgent,
-          deviceFingerprint: null,
-        });
-
-        const data = response.data;
-        setSessionId(data.sessionId);
-        localStorage.setItem("kycSessionId", data.sessionId.toString());
-        localStorage.setItem("kycSessionToken", data.sessionToken);
-        setSessionReady(true);
-        console.log("✅ KYC Session initialized:", data.sessionId);
-      } catch (error) {
-        console.error("❌ Failed to initialize session:", error);
-        alert("Failed to start KYC session. Please refresh the page.");
-      }
-    };
-
-    // Check if session already exists in localStorage
-    const existingSessionId = localStorage.getItem("kycSessionId");
-    if (existingSessionId) {
-      setSessionId(parseInt(existingSessionId));
-      setSessionReady(true);
-    } else {
-      initializeSession();
+    const saved = sessionStorage.getItem("kycDraftValues");
+    if (saved) {
+      const values = JSON.parse(saved);
+      Object.entries(values).forEach(([key, value]) => {
+        methods.setValue(
+          key as keyof FormData,
+          value as string | number | boolean | string[] | undefined
+        );
+      });
     }
   }, []);
+  useEffect(() => {
+    const sub = methods.watch((values) => {
+      sessionStorage.setItem("kycDraftValues", JSON.stringify(values));
+    });
+    return () => sub.unsubscribe();
+  }, [methods]);
+
   const {
     handleSubmit,
     control,
@@ -464,7 +484,7 @@ function Form() {
   };
   useEffect(() => {
     const sub = methods.watch((values) => {
-      localStorage.setItem("kycDraftValues", JSON.stringify(values));
+      sessionStorage.setItem("kycDraftValues", JSON.stringify(values));
     });
     return () => sub.unsubscribe();
   }, [methods]);
@@ -3198,53 +3218,58 @@ function Form() {
           >
             {i18n.language === "en" ? " नेपाली" : " English"}
           </button>
-          {currentStep !== totalStepsCount && (
-            <div className="progress-container">
-              <div className="progress-wrapper">
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((step) => {
-                  // Skip step 6 for adults
-                  if (userAge !== null && userAge >= 18 && step === 6) {
-                    return null;
-                  }
 
-                  // Adjust displayed step number for adults after step 6
+          {/* Stepper Progress Bar */}
+          {currentStep !== totalStepsCount && (
+            <div className="progress-bar-stepper">
+              <div className="progress-bar-track">
+                <div
+                  className="progress-bar-fill"
+                  style={{
+                    width: `${
+                      ((currentStep - 1) / (totalStepsCount - 1)) * 100
+                    }%`,
+                  }}
+                ></div>
+              </div>
+              <div className="progress-circles-row">
+                {Array.from({ length: totalStepsCount }, (_, idx) => {
+                  // For adults, skip step 6 (guardian info)
+                  if (userAge !== null && userAge >= 18 && idx + 1 === 6)
+                    return null;
+                  // For adults, adjust step numbers after skipping step 6
                   const displayStep =
-                    userAge !== null && userAge >= 18 && step > 6
-                      ? step - 1
-                      : step;
+                    userAge !== null && userAge >= 18 && idx + 1 > 6
+                      ? idx
+                      : idx + 1;
                   const isActive =
                     userAge !== null && userAge >= 18
                       ? currentStep >= displayStep && currentStep !== 6
-                      : currentStep >= step;
+                      : currentStep >= idx + 1;
                   const isCurrent =
                     userAge !== null && userAge >= 18
                       ? currentStep === displayStep && currentStep !== 6
-                      : currentStep === step;
-
+                      : currentStep === idx + 1;
                   return (
                     <div
-                      key={step}
-                      className={`progress-step ${isActive ? "active" : ""}`}
+                      key={idx}
+                      className={`progress-step-circle ${
+                        isCurrent ? "active" : isActive ? "completed" : ""
+                      }`}
                     >
-                      <div
-                        className={`progress-circle ${
-                          isCurrent ? "active" : "inactive"
-                        }`}
-                      >
-                        {currentStep >
-                        (userAge !== null && userAge >= 18 && step > 6
-                          ? step - 1
-                          : step)
-                          ? "✓"
-                          : displayStep}
-                      </div>
-                      <div className="progress-label">Step {displayStep}</div>
+                      {currentStep >
+                      (userAge !== null && userAge >= 18 && idx + 1 > 6
+                        ? idx
+                        : idx + 1)
+                        ? "✓"
+                        : displayStep}
                     </div>
                   );
                 })}
               </div>
             </div>
           )}
+          {/* Step Content */}
           {currentStep !== totalStepsCount ? (
             <form onSubmit={handleSubmit(onSubmit)}>
               {renderStep()}
@@ -3282,8 +3307,6 @@ function Form() {
           )}
         </div>
       </FormProvider>
-      {/* )}
-      ; */}
     </>
   );
 }
