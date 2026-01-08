@@ -3256,6 +3256,8 @@ function Form() {
                       className={`progress-step-circle ${
                         isCurrent ? "active" : isActive ? "completed" : ""
                       }`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setCurrentStep(displayStep)}
                     >
                       {currentStep >
                       (userAge !== null && userAge >= 18 && idx + 1 > 6
