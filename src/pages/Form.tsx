@@ -162,7 +162,7 @@ function Form() {
       case 7:
         return "/api/KycData/save-legal-consent";
       case 8:
-        return "/api/KycData/save-documents";
+        return "/api/KycData/upload-documents";
       default:
         return null;
     }
@@ -365,9 +365,9 @@ function Form() {
   // };
 
   const handleNext = async () => {
-    const stepFields = getStepFields(currentStep);
-    const isValid = await trigger(stepFields);
-    if (!isValid) return;
+    // const stepFields = getStepFields(currentStep);
+    // const isValid = await trigger(stepFields);
+    // if (!isValid) return;
 
     const sessionId = sessionStorage.getItem("kycSessionId");
     if (!sessionId) {
@@ -379,9 +379,9 @@ function Form() {
     if (endpoint) {
       const values = getValues();
       const payload: Record<string, any> = {};
-      stepFields.forEach((field) => {
-        payload[field] = values[field];
-      });
+      // stepFields.forEach((field) => {
+      //   payload[field] = values[field];
+      // });
       payload.sessionId = sessionId; // <-- Add sessionId to payload
       await api.post(endpoint, payload);
     }
@@ -1517,7 +1517,6 @@ function Form() {
                   type="text"
                   className="form-input"
                   value={field.value}
-                  readOnly
                 />
               )}
             />
@@ -1705,8 +1704,7 @@ function Form() {
                   {...field}
                   type="text"
                   className="form-input"
-                  value={field.value || "Nepal"}
-                  readOnly
+                  value={field.value}
                 />
               )}
             />
