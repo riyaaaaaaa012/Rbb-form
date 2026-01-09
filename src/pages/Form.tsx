@@ -17,11 +17,14 @@ import * as Slider from "@radix-ui/react-slider";
 import "./slider.css";
 import api from "../api";
 import { useTranslation } from "react-i18next";
+import addressData from "../addressData.json";
+import { set } from "mongoose";
 
 const TOTAL_STEPS = 10;
 
 type FormData = {
   // Personal Information
+  firstNameDev: string;
   firstName: string;
   middleName: string;
   lastName: string;
@@ -47,11 +50,13 @@ type FormData = {
   currentDistrict: string;
   currentProvince: string;
   currentCountry: string;
+  currentTole: string;
   permanentWardNo: string;
   permanentMunicipality: string;
   permanentDistrict: string;
   permanentProvince: string;
   permanentCountry: string;
+  permanentTole: string;
   contactNumber: string;
   emailAddress: string;
 
@@ -91,6 +96,7 @@ type FormData = {
   guardianDistrict: string;
   guardianProvince: string;
   guardianCountry: string;
+  guardianTole: string;
   mobileNumber: string;
   email: string;
   panNumberGuardian: string;
@@ -128,12 +134,39 @@ type FormData = {
 };
 
 function Form() {
+  console.log("API baseURL:", process.env.REACT_APP_API_BASE_URL);
   const [currentStep, setCurrentStep] = useState(1);
+  const [currentProvince, setCurrentProvince] = useState("");
+  const [currentDistrict, setCurrentDistrict] = useState("");
+  const [currentMunicipality, setCurrentMunicipality] = useState("");
+  const [currentWard, setCurrentWard] = useState("");
+
   const [submittedData, setSubmittedData] = useState<FormData | null>(null);
   const [mapPosition, setMapPosition] = useState<LatLngTuple>([
     27.7172, 85.324,
   ]);
-
+  function getSaveEndpoint(step: number) {
+    switch (step) {
+      case 1:
+        return "/api/KycData/save-personal-info";
+      case 2:
+        return "/api/KycData/save-current-address";
+      case 3:
+        return "/api/KycData/save-family";
+      case 4:
+        return "/api/KycData/save-bank-account";
+      case 5:
+        return "/api/KycData/save-occupation";
+      case 6:
+        return "/api/KycData/save-guardian";
+      case 7:
+        return "/api/KycData/save-legal-consent";
+      case 8:
+        return "/api/KycData/save-documents";
+      default:
+        return null;
+    }
+  }
   // React Hook Form setup
   const methods = useForm<FormData>({
     defaultValues: {
@@ -155,45 +188,13 @@ function Form() {
       guardianDistrict: "",
       guardianProvince: "",
       guardianCountry: "",
+      guardianTole: "",
     },
     mode: "onChange",
   });
-  const [sessionId, setSessionId] = useState<number | null>(null);
-  const [sessionReady, setSessionReady] = useState(false);
+
   const [userEmail, setUserEmail] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
-
-  // Initialize KYC session on mount
-  // useEffect(() => {
-  //   const initializeSession = async () => {
-  //     try {
-  //       const response = await api.post("/api/KycSession/initialize", {
-  //         email: "temp@example.com", // You can make this dynamic later
-  //         mobileNo: "9800000000",
-  //         ipAddress: null,
-  //         userAgent: navigator.userAgent,
-  //         deviceFingerprint: null,
-  //       });
-
-  //       const data = response.data;
-  //       setSessionId(data.sessionId);
-  //       sessionStorage.setItem("kycSessionId", data.sessionId.toString());
-  //       sessionStorage.setItem("kycSessionToken", data.sessionToken);
-  //       setSessionReady(true);
-  //       console.log("✅ KYC Session initialized:", data.sessionId);
-  //     } catch (error) {
-  //       console.error("❌ Failed to initialize session:", error);
-  //       alert("Failed to start KYC session. Please refresh the page.");
-  //     }
-  //   };
-  //  const existingSessionId = sessionStorage.getItem("kycSessionId");
-  //   if (existingSessionId) {
-  //     setSessionId(parseInt(existingSessionId));
-  //     setSessionReady(true);
-  //   } else {
-  //     //initializeSession();
-  //   }
-  // }, []);
 
   // Check if session already exists in sessionStorage
 
@@ -328,6 +329,13 @@ function Form() {
     });
     return null; // Change this to null instead of returning Marker
   };
+  const getDistricts = (provinceName: string) =>
+    addressData.provinceList.find((p) => p.name === provinceName)
+      ?.districtList || [];
+
+  const getMunicipalities = (provinceName: string, districtName: string) =>
+    getDistricts(provinceName).find((d) => d.name === districtName)
+      ?.municipalityList || [];
 
   /* -------------------- NAVIGATION -------------------- */
   //   const handleNext = async () => {
@@ -345,16 +353,47 @@ function Form() {
   //         }
   //       };
 
+  // const handleNext = async () => {
+  //   if (currentStep < totalStepsCount) {
+  //     let nextStep = currentStep + 1;
+  //     // Skip Step 6 (Guardian Info) if user is 18 or older
+  //     if (userAge !== null && userAge >= 18 && nextStep === 6) {
+  //       nextStep = 7;
+  //     }
+  //     setCurrentStep(nextStep);
+  //   }
+  // };
+
   const handleNext = async () => {
+    const stepFields = getStepFields(currentStep);
+    const isValid = await trigger(stepFields);
+    if (!isValid) return;
+
+    const sessionId = sessionStorage.getItem("kycSessionId");
+    if (!sessionId) {
+      alert("Session not initialized.");
+      return;
+    }
+
+    const endpoint = getSaveEndpoint(currentStep); // <-- No sessionId here
+    if (endpoint) {
+      const values = getValues();
+      const payload: Record<string, any> = {};
+      stepFields.forEach((field) => {
+        payload[field] = values[field];
+      });
+      payload.sessionId = sessionId; // <-- Add sessionId to payload
+      await api.post(endpoint, payload);
+    }
+
+    // Move to next step as before
     if (currentStep < totalStepsCount) {
       let nextStep = currentStep + 1;
-      // Skip Step 6 (Guardian Info) if user is 18 or older
-      if (userAge !== null && userAge >= 18 && nextStep === 6) {
-        nextStep = 7;
-      }
+      if (userAge !== null && userAge >= 18 && nextStep === 6) nextStep = 7;
       setCurrentStep(nextStep);
     }
   };
+
   const handlePrevious = () => {
     if (currentStep > 1) {
       let prevStep = currentStep - 1;
@@ -365,6 +404,15 @@ function Form() {
       setCurrentStep(prevStep);
     }
   };
+  useEffect(() => {
+    // Example: get sessionId from URL query param
+    const params = new URLSearchParams(window.location.search);
+    const sessionIdFromUrl = params.get("sessionId");
+    if (sessionIdFromUrl) {
+      sessionStorage.setItem("kycSessionId", sessionIdFromUrl);
+    }
+    // ...rest of your draft loading logic...
+  }, []);
   const onSubmit = async (data: FormData) => {
     if (currentStep !== totalStepsCount - 1) return;
 
@@ -459,7 +507,12 @@ function Form() {
       };
 
       // Replace this endpoint with your final "submit" API if different
-      await api.post("/api/KycData/submit", payload);
+      const sessionIdFromStorage = sessionStorage.getItem("kycSessionId");
+      if (!sessionIdFromStorage) {
+        alert("Session not initialized. Please refresh the page.");
+        return;
+      }
+      await api.post(`/api/kyc/submit/${sessionIdFromStorage}`, payload);
 
       console.log("✅ KYC submitted successfully");
       setSubmittedData(data);
@@ -527,6 +580,7 @@ function Form() {
     switch (step) {
       case 1:
         return [
+          "firstNameDev",
           "firstName",
           "lastName",
           "fullName",
@@ -593,6 +647,7 @@ function Form() {
               "guardianDistrict",
               "guardianProvince",
               "guardianCountry",
+              "guardianTole",
               "mobileNumber",
               "email",
               "birthRegistrationNumber",
@@ -700,6 +755,33 @@ function Form() {
   const renderStep1 = () => (
     <div className="form-section">
       <h2 className="section-title">{t("step1.title")}</h2>
+      <div className="form-field">
+        <label className="form-label">
+          पहिलो नाम (देवनागरीमा) <span className="required">*</span>
+        </label>
+        <Controller
+          name="firstNameDev"
+          control={control}
+          rules={{
+            required: "पहिलो नाम अनिवार्य छ",
+            pattern: {
+              value: /^[\u0900-\u097F\s]+$/,
+              message: "कृपया देवनागरीमा मात्र लेख्नुहोस्",
+            },
+          }}
+          render={({ field }) => (
+            <input
+              {...field}
+              type="text"
+              className="form-input"
+              placeholder="पहिलो नाम (देवनागरीमा)"
+            />
+          )}
+        />
+        {errors.firstNameDev && (
+          <p className="error-message">{errors.firstNameDev.message}</p>
+        )}
+      </div>
 
       {/* First Name, Middle Name, Last Name */}
       <div className="form-field">
@@ -1221,6 +1303,8 @@ function Form() {
     currentDistrict: t("step2.currentDistrict"),
     currentProvince: t("step2.currentProvince"),
     currentCountry: t("step2.currentCountry"),
+    currentTole: t("step2.currentTole"),
+    permanentTole: t("step2.permanentTole"),
     permanentWardNo: t("step2.permanentWardNo"),
     permanentMunicipality: t("step2.permanentMunicipality"),
     permanentDistrict: t("step2.permanentDistrict"),
@@ -1228,18 +1312,39 @@ function Form() {
     permanentCountry: t("step2.permanentCountry"),
   };
 
+  const wardOptions = Array.from({ length: 15 }, (_, i) => (i + 1).toString());
+
   const renderStep2 = () => {
+    // For current address
+    const currentProvince = watch("currentProvince");
+    const currentDistrict = watch("currentDistrict");
+    const currentMunicipality = watch("currentMunicipality");
+    const currentWardNo = watch("currentWardNo");
+
+    // For permanent address
+    const permanentProvince = watch("permanentProvince");
+    const permanentDistrict = watch("permanentDistrict");
+    const permanentMunicipality = watch("permanentMunicipality");
+    const permanentWardNo = watch("permanentWardNo");
+
+    // Helper functions
+    const getDistricts = (provinceName: string) =>
+      addressData.provinceList.find((p) => p.name === provinceName)
+        ?.districtList || [];
+    const getMunicipalities = (provinceName: string, districtName: string) =>
+      getDistricts(provinceName).find((d) => d.name === districtName)
+        ?.municipalityList || [];
+
     const handleSameAsCurrentAddress = (
       e: React.ChangeEvent<HTMLInputElement>
     ) => {
       if (e.target.checked) {
-        const [ward, municipality, district, province, country] =
-          currentAddress || ["", "", "", "", ""];
-        setValue("permanentWardNo", ward || "");
-        setValue("permanentMunicipality", municipality || "");
-        setValue("permanentDistrict", district || "");
-        setValue("permanentProvince", province || "");
-        setValue("permanentCountry", country || "");
+        setValue("permanentProvince", currentProvince || "");
+        setValue("permanentDistrict", currentDistrict || "");
+        setValue("permanentMunicipality", currentMunicipality || "");
+        setValue("permanentWardNo", currentWardNo || "");
+        setValue("permanentTole", watch("currentTole") || "");
+        setValue("permanentCountry", watch("currentCountry") || "");
       }
     };
 
@@ -1249,37 +1354,177 @@ function Form() {
 
         <h3 className="subsection-title">{t("step2.currentAddress")}</h3>
         <div className="grid-2-cols">
-          {[
-            "currentWardNo",
-            "currentMunicipality",
-            "currentDistrict",
-            "currentProvince",
-            "currentCountry",
-          ].map((field) => (
-            <div className="form-field" key={field}>
-              <label className="form-label">
-                {addressLabels[field]} <span className="required">*</span>
-              </label>
-              <Controller
-                name={field as keyof FormData}
-                control={control}
-                rules={{ required: t("validation.required") }}
-                render={({ field: controllerField }) => (
-                  <input
-                    {...controllerField}
-                    value={controllerField.value as string}
-                    type="text"
-                    className="form-input"
-                  />
-                )}
-              />
-              {errors[field as keyof FormData] && (
-                <p className="error-message">
-                  {errors[field as keyof FormData]?.message}
-                </p>
+          {/* Province */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.currentProvince")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="currentProvince"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  className="form-input"
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    setValue("currentDistrict", "");
+                    setValue("currentMunicipality", "");
+                    setValue("currentWardNo", "");
+                  }}
+                >
+                  <option value="">Select Province</option>
+                  {addressData.provinceList.map((prov: any) => (
+                    <option key={prov.id} value={prov.name}>
+                      {prov.name}
+                    </option>
+                  ))}
+                </select>
               )}
-            </div>
-          ))}
+            />
+            {errors.currentProvince && (
+              <p className="error-message">{errors.currentProvince.message}</p>
+            )}
+          </div>
+          {/* District */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.currentDistrict")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="currentDistrict"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  className="form-input"
+                  disabled={!currentProvince}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    setValue("currentMunicipality", "");
+                    setValue("currentWardNo", "");
+                  }}
+                >
+                  <option value="">Select District</option>
+                  {getDistricts(currentProvince).map((dist: any) => (
+                    <option key={dist.id} value={dist.name}>
+                      {dist.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
+            {errors.currentDistrict && (
+              <p className="error-message">{errors.currentDistrict.message}</p>
+            )}
+          </div>
+          {/* Municipality */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.currentMunicipality")}{" "}
+              <span className="required">*</span>
+            </label>
+            <Controller
+              name="currentMunicipality"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  className="form-input"
+                  disabled={!currentDistrict}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    setValue("currentWardNo", "");
+                  }}
+                >
+                  <option value="">Select Municipality</option>
+                  {getMunicipalities(currentProvince, currentDistrict).map(
+                    (muni: any) => (
+                      <option key={muni.id} value={muni.name}>
+                        {muni.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              )}
+            />
+            {errors.currentMunicipality && (
+              <p className="error-message">
+                {errors.currentMunicipality.message}
+              </p>
+            )}
+          </div>
+          {/* Ward */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.currentWardNo")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="currentWardNo"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  className="form-input"
+                  disabled={!currentMunicipality}
+                >
+                  <option value="">Select Ward</option>
+                  {wardOptions.map((ward) => (
+                    <option key={ward} value={ward}>
+                      {ward}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
+            {errors.currentWardNo && (
+              <p className="error-message">{errors.currentWardNo.message}</p>
+            )}
+          </div>
+          {/* Tole */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.currentTole")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="currentTole"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <input {...field} type="text" className="form-input" />
+              )}
+            />
+            {errors.currentTole && (
+              <p className="error-message">{errors.currentTole.message}</p>
+            )}
+          </div>
+          {/* Country */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.currentCountry")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="currentCountry"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="text"
+                  className="form-input"
+                  value={field.value}
+                  readOnly
+                />
+              )}
+            />
+            {errors.currentCountry && (
+              <p className="error-message">{errors.currentCountry.message}</p>
+            )}
+          </div>
         </div>
 
         <h3 className="subsection-title">{t("step2.permanentAddress")}</h3>
@@ -1293,39 +1538,182 @@ function Form() {
             {t("step2.sameAsCurrentAddress")}
           </label>
         </div>
-
         <div className="grid-2-cols">
-          {[
-            "permanentWardNo",
-            "permanentMunicipality",
-            "permanentDistrict",
-            "permanentProvince",
-            "permanentCountry",
-          ].map((field) => (
-            <div className="form-field" key={field}>
-              <label className="form-label">
-                {addressLabels[field]} <span className="required">*</span>
-              </label>
-              <Controller
-                name={field as keyof FormData}
-                control={control}
-                rules={{ required: t("validation.required") }}
-                render={({ field: controllerField }) => (
-                  <input
-                    {...controllerField}
-                    value={controllerField.value as string}
-                    type="text"
-                    className="form-input"
-                  />
-                )}
-              />
-              {errors[field as keyof FormData] && (
-                <p className="error-message">
-                  {errors[field as keyof FormData]?.message}
-                </p>
+          {/* Province */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.permanentProvince")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="permanentProvince"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  className="form-input"
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    setValue("permanentDistrict", "");
+                    setValue("permanentMunicipality", "");
+                    setValue("permanentWardNo", "");
+                  }}
+                >
+                  <option value="">Select Province</option>
+                  {addressData.provinceList.map((prov: any) => (
+                    <option key={prov.id} value={prov.name}>
+                      {prov.name}
+                    </option>
+                  ))}
+                </select>
               )}
-            </div>
-          ))}
+            />
+            {errors.permanentProvince && (
+              <p className="error-message">
+                {errors.permanentProvince.message}
+              </p>
+            )}
+          </div>
+          {/* District */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.permanentDistrict")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="permanentDistrict"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  className="form-input"
+                  disabled={!permanentProvince}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    setValue("permanentMunicipality", "");
+                    setValue("permanentWardNo", "");
+                  }}
+                >
+                  <option value="">Select District</option>
+                  {getDistricts(permanentProvince).map((dist: any) => (
+                    <option key={dist.id} value={dist.name}>
+                      {dist.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
+            {errors.permanentDistrict && (
+              <p className="error-message">
+                {errors.permanentDistrict.message}
+              </p>
+            )}
+          </div>
+          {/* Municipality */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.permanentMunicipality")}{" "}
+              <span className="required">*</span>
+            </label>
+            <Controller
+              name="permanentMunicipality"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  className="form-input"
+                  disabled={!permanentDistrict}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    setValue("permanentWardNo", "");
+                  }}
+                >
+                  <option value="">Select Municipality</option>
+                  {getMunicipalities(permanentProvince, permanentDistrict).map(
+                    (muni: any) => (
+                      <option key={muni.id} value={muni.name}>
+                        {muni.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              )}
+            />
+            {errors.permanentMunicipality && (
+              <p className="error-message">
+                {errors.permanentMunicipality.message}
+              </p>
+            )}
+          </div>
+          {/* Ward */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.permanentWardNo")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="permanentWardNo"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  className="form-input"
+                  disabled={!permanentMunicipality}
+                >
+                  <option value="">Select Ward</option>
+                  {wardOptions.map((ward) => (
+                    <option key={ward} value={ward}>
+                      {ward}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
+            {errors.permanentWardNo && (
+              <p className="error-message">{errors.permanentWardNo.message}</p>
+            )}
+          </div>
+          {/* Tole */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.permanentTole")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="permanentTole"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <input {...field} type="text" className="form-input" />
+              )}
+            />
+            {errors.permanentTole && (
+              <p className="error-message">{errors.permanentTole.message}</p>
+            )}
+          </div>
+          {/* Country */}
+          <div className="form-field">
+            <label className="form-label">
+              {t("step2.permanentCountry")} <span className="required">*</span>
+            </label>
+            <Controller
+              name="permanentCountry"
+              control={control}
+              rules={{ required: t("validation.required") }}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="text"
+                  className="form-input"
+                  value={field.value || "Nepal"}
+                  readOnly
+                />
+              )}
+            />
+            {errors.permanentCountry && (
+              <p className="error-message">{errors.permanentCountry.message}</p>
+            )}
+          </div>
         </div>
 
         <h3 className="subsection-title">{t("step2.contactInfo")}</h3>
@@ -2022,18 +2410,21 @@ function Form() {
       e: React.ChangeEvent<HTMLInputElement>
     ) => {
       if (e.target.checked) {
-        const [ward, municipality, district, province, country] = getValues([
-          "currentWardNo",
-          "currentMunicipality",
-          "currentDistrict",
-          "currentProvince",
-          "currentCountry",
-        ]);
+        const [ward, municipality, district, province, country, tole] =
+          getValues([
+            "currentWardNo",
+            "currentMunicipality",
+            "currentDistrict",
+            "currentProvince",
+            "currentCountry",
+            "currentTole",
+          ]);
         setValue("guardianWardNo", ward || "");
         setValue("guardianMunicipality", municipality || "");
         setValue("guardianDistrict", district || "");
         setValue("guardianProvince", province || "");
         setValue("guardianCountry", country || "");
+        setValue("guardianTole", tole || "");
       }
     };
 
@@ -2137,6 +2528,11 @@ function Form() {
               name: "guardianCountry",
               label:
                 t("step6.guardianAddress") + " - " + t("step2.currentCountry"),
+            },
+            {
+              name: "guardianTole",
+              label:
+                t("step6.guardianAddress") + " - " + t("step2.currentTole"),
             },
           ].map(({ name, label }) => (
             <div className="form-field" key={name}>
